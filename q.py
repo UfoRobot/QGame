@@ -25,7 +25,7 @@ class Settings():
     def __init__(self):
         # Sets default settings values
         self.nPlayers = 2
-        self.players = {1:"X", 2:"O"}
+        self.players = {0:".", 1:"X", 2:"O"}
 
     def setPlayers():
         # Sets custom setting values. More player and custom symbols
@@ -49,12 +49,13 @@ class QField():
     # Class methods
     #
     
-    def __init__(self, rows = None, columns = None):
+    def __init__(self, settings, rows = None, columns = None):
         """ Initialzize an empty field. Custom size can be passed as argument """
         if rows != None:
             self.m = rows
         if columns != None:
             self.n = columns
+        self.settings = settings
         self.field = [] 
         for row in range(self.n):
             self.field.append([0 for x in range(self.n)])
@@ -62,7 +63,8 @@ class QField():
     def show(self):
         for i in range(self.m):
             for j in range(self.n):
-                print(self.field[i][j], end = "\t")
+                toPrint = self.settings.players[self.field[i][j]]
+                print(toPrint, end = "\t")
             print("\n")
 
     def __checkSequence(self, sequence):
@@ -160,8 +162,8 @@ class QMatch():
     #
 
     # Default member values, might be overwritten during init
-    field = QField()
     settings = Settings()
+    field = QField(settings)
 
     #
     # Class methods
@@ -178,7 +180,7 @@ class QMatch():
     def playTurns(self):
         """ Loops players letting them make their moove, returns winner at the end of game """
 
-        for player in itertools.cycle(self.settings.players):
+        for player in itertools.cycle(range(1, self.settings.nPlayers+1)):
             self.field.show()
             self.field.move(player)
             mayWin = self.field.checkWin()

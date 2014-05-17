@@ -13,7 +13,7 @@ This class is used for fields objects. It does all the field-operation such as:
 - Checking for a winner
 - Managing players' moves
   
-### Qmatch
+### QMatch
 It is a match of the QGame. It may use a custum setting object. it deals turns and it starts and end the game
 
 
