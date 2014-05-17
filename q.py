@@ -4,6 +4,13 @@
 
 from __future__ import print_function
 import itertools
+import os
+
+#
+# System based functions
+#
+def clearScreen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 #
 # Class definition
@@ -24,8 +31,19 @@ class Settings():
 
     def __init__(self):
         # Sets default settings values
+        self.m = 6
+        self.n = 6
         self.nPlayers = 2
         self.players = {0:".", 1:"X", 2:"O"}
+
+    def showSettings(self):
+        clearScreen()
+        print("Field size:\t\t\t{}x{}".format(self.m, self.n))
+        print("Number of players:\t\t\t{}".format(self.nPlayers))
+        for player in range(1, self.nPlayers+1):
+            print("Player {} ---> {}".format(player, self.players[player]))
+
+
 
     def setPlayers():
         # Sets custom setting values. More player and custom symbols
@@ -42,27 +60,24 @@ class QField():
     #
     
     # Deafult member values, may be overwritten during init
-    n = 6        # Number of rows
-    m = 6        # Number of columns
+    settings = Settings()
 
     #
     # Class methods
     #
     
-    def __init__(self, settings, rows = None, columns = None):
+    def __init__(self, settings = None):
         """ Initialzize an empty field. Custom size can be passed as argument """
-        if rows != None:
-            self.m = rows
-        if columns != None:
-            self.n = columns
-        self.settings = settings
+        if settings != None:
+            self.settings = settings
         self.field = [] 
-        for row in range(self.n):
-            self.field.append([0 for x in range(self.n)])
+        for row in range(self.settings.n):
+            self.field.append([0 for x in range(self.settings.m)])
 
     def show(self):
-        for i in range(self.m):
-            for j in range(self.n):
+        clearScreen()
+        for i in range(self.settings.m):
+            for j in range(self.settings.n):
                 toPrint = self.settings.players[self.field[i][j]]
                 print(toPrint, end = "\t")
             print("\n")
@@ -95,8 +110,8 @@ class QField():
         """ You can get that...."""
 
         column = []
-        for j in range(self.n):
-            for i in range(self.m):
+        for j in range(self.settings.n):
+            for i in range(self.settings.m):
                 column.append(self.field[i][j])
             mayWin = self.__checkSequence(column)
             if mayWin != None:
@@ -109,8 +124,8 @@ class QField():
         """ Checks for a winning block """
 
         block = []
-        for i in range(self.m-1):
-            for j in range(self.n-1):
+        for i in range(self.settings.m-1):
+            for j in range(self.settings.n-1):
                 block.append(self.field[i][j])
                 block.append(self.field[i][j+1])
                 block.append(self.field[i+1][j])
@@ -145,7 +160,7 @@ class QField():
         j = int(j)
 
         
-        if i > self.m or j > self.n:
+        if i > self.settings.m or j > self.settings.n:
             print(" ERROR # QField.move --> Move out of field")
             self.move(player)
         elif self.field[i][j] != 0:
@@ -169,13 +184,13 @@ class QMatch():
     # Class methods
     #
 
-    def __init__(self, field = None, settings = None):
+    def __init__(self, settings = None, field = None):
         """ Initialize the match with custom or default field and settings.
             A match can therefore starts with a argument-passed non-empty field (mainly for testing) """
         if field != None:
-            self.field = field          # Use argumet-passed field
+            self.field = field               # Use argumet-passed field
         if settings != None:
-            self.settings = settings    # Use argument-passed setting object
+           self.field = QField(settings)
 
     def playTurns(self):
         """ Loops players letting them make their moove, returns winner at the end of game """
@@ -192,9 +207,54 @@ class QMatch():
 
         print("STARTING THE MATCH")
         winner = self.playTurns()
-        Print("PLAYER {} WON THIS GAME".format(winner))
+        print("PLAYER {} WON THIS GAME".format(winner))
+
+class Menu():
+    """ A menu class to navigate through settings or start new game """
+
+    #
+    # Class members
+    #
+
+    settings = Settings()   # default settings may be changed via setSettings
+
+    #
+    # Class methods
+    #
+
+    def __init__(self):
+        self.mainPage()
+    
+    def mainPage(self):
+        loop = True
+        while loop:
+            clearScreen()
+            print("*----------------*")
+            print("|    MAIN MENU   |")
+            print("*----------------*")
+            print(" [1] New Game")
+            print(" [2] Settings")
+            print(" [0] Quit")
+            answer  = raw_input("->")
+
+            if answer == "1":
+                print("New Game")
+                game = QMatch(self.settings)
+                game.startMatch()
+            elif answer == "2":
+                print("Settings")
+                self.settings.showSettings()
+                raw_input("Press enter to continue")
+            elif answer == "0":
+                print("Bye bye")
+                loop = False
+            else:
+                print("ERROR # Menu.mainPage --> Not a valid option")
+                raw_input("Press enter to continue")
+                
+
 
 if __name__ == "__main__":
-    test = QMatch()
-    test.startMatch()
+    test = Menu()
+
 
