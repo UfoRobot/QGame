@@ -2,6 +2,9 @@
 # Imports under here
 #
 
+from __future__ import print_function
+import itertools
+
 #
 # Class definition
 #
@@ -13,9 +16,7 @@ class Settings():
     #
     # Class members
     #
-
-    self.nPlayers = 0   # Number of players
-    self.players = {}   # Associates player's id and player's symbol
+    
 
     #
     # Class methods
@@ -39,25 +40,30 @@ class QField():
     #
     # Class members
     #
-
-    n = 0        # Number of rows
-    m = 0        # Number of columns
-    field = []   # Field is a list of lists
+    
+    # Deafult member values, may be overwritten during init
+    n = 6        # Number of rows
+    m = 6        # Number of columns
 
     #
     # Class methods
     #
     
-    def __init__(self, rows, columns):
-    # init builds up a clear field n x m
-        self.n = rows
-        self.m = columns
+    def __init__(self, rows = None, columns = None):
+        """ Initialzize an empty field. Custom size can be passed as argument """
+        if rows != None:
+            self.m = rows
+        if columns != None:
+            self.n = columns
         self.field = [] 
-        for row in range(n):
-            self.field.append([0 for x in range(m)])
+        for row in range(self.n):
+            self.field.append([0 for x in range(self.n)])
 
     def show(self):
-        for i in range
+        for i in range(self.m):
+            for j in range(self.n):
+                print(self.field[i][j], end = "\t")
+            print("\n")
 
     def __checkSequence(self, sequence):
         """ Given a sequence returns the element that occurs 4 times
@@ -88,7 +94,7 @@ class QField():
 
         column = []
         for j in range(self.n):
-            for i in range(self.m)
+            for i in range(self.m):
                 column.append(self.field[i][j])
             mayWin = self.__checkSequence(column)
             if mayWin != None:
@@ -103,10 +109,10 @@ class QField():
         block = []
         for i in range(self.m-1):
             for j in range(self.n-1):
-                block.append(field[i][j])
-                block.append(field[i][j+1])
-                block.append(field[i+1][j])
-                block.append(field[i+1][j+1])
+                block.append(self.field[i][j])
+                block.append(self.field[i][j+1])
+                block.append(self.field[i+1][j])
+                block.append(self.field[i+1][j+1])
                 mayWin = self.__checkSequence(block)
                 if mayWin != None:
                     return mayWin
@@ -114,45 +120,79 @@ class QField():
         return None
 
     def checkWin(self, field = None):
-        """ Checks for a victor on the field. May be passed a differet field for testing """
+        """ Checks for a victor on the field. May be passed a differet field (for testing) """
         if field == None:
             field = self.field
-        rowWinner = self.__checkRows(field)
+        rowWinner = self.__checkRows()
         if rowWinner != None:
             return rowWinner
-        columnWinner = self.__checkColumns(field)
+        columnWinner = self.__checkColumns()
         if columnWinner != None:
             return columnWinner
-        blockWinner = self.__checkBlocks(field)
+        blockWinner = self.__checkBlocks()
         if blockWinner != None:
             return blockWinner
         return None
 
-    def move(self, player, i, j):
-        if self.field[i][j] != 0:
-            print "ERROR # QField.move --> Not an empty cell!"
+    def move(self, player):
+        """ Asks a player for it's move until he enters a valid one """
+
+        playerMove = raw_input("Player {} enter move: ".format(player))
+        i, j = playerMove.split()
+        i = int(i)
+        j = int(j)
+
+        
+        if i > self.m or j > self.n:
+            print(" ERROR # QField.move --> Move out of field")
+            self.move(player)
+        elif self.field[i][j] != 0:
+            print("ERROR # QField.move --> Not an empty cell!")
+            self.move(player)
         else:
             self.field[i][j] = player
 
+class QMatch():
+    """ A match of the QGame. Here's where the fight takes place """
 
+    #
+    # Class members
+    #
 
+    # Default member values, might be overwritten during init
+    field = QField()
+    settings = Settings()
 
+    #
+    # Class methods
+    #
+
+    def __init__(self, field = None, settings = None):
+        """ Initialize the match with custom or default field and settings.
+            A match can therefore starts with a argument-passed non-empty field (mainly for testing) """
+        if field != None:
+            self.field = field          # Use argumet-passed field
+        if settings != None:
+            self.settings = settings    # Use argument-passed setting object
+
+    def playTurns(self):
+        """ Loops players letting them make their moove, returns winner at the end of game """
+
+        for player in itertools.cycle(self.settings.players):
+            self.field.show()
+            self.field.move(player)
+            mayWin = self.field.checkWin()
+            if mayWin != None:
+                return mayWin
+
+    def startMatch(self):
+        """ Let's have this started """
+
+        print("STARTING THE MATCH")
+        winner = self.playTurns()
+        Print("PLAYER {} WON THIS GAME".format(winner))
 
 if __name__ == "__main__":
-    test = QField(4,6)
-#    print test.field
-    
-#    sequenceLine = [0,0,3,3,3,2,2,0,0,0,0,0,0,0,1,1,1,1]
-#    print sequenceLine
-#    print test.checkSequence(sequenceLine)
-
-    testField = [
-            [1,2,2,0,0,1],
-            [1,1,0,0,2,1],
-            [2,0,2,2,1,1],
-            [2,2,1,2,1,1]
-            ]
-#    print testField
-#    print test.checkRows(testField)
-    print test.checkBlock(testField)
+    test = QMatch()
+    test.startMatch()
 
