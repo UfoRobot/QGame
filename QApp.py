@@ -220,7 +220,7 @@ class QGrid(GridLayout):
         newGameButton = Button(text='New game', size_hint_y=None, height=50)    # Button object
         settingsButton = Button(text='Settings', size_hint_y=None, height=50)   # Button object
         settingsButton.bind(on_release = self.setSettings)
-
+        newGameButton.bind(on_release = self.reset())
         content = BoxLayout(orientation='vertical')                             # Layout for popup
         content.add_widget(popupLabel)
 
