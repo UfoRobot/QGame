@@ -239,22 +239,6 @@ class MainLayout(GridLayout):
         print("SETTINGS CALLED")
 
         self.sm.current = "sScreen"
-
-        self.clear_widgets()
-        for row in range(self.settings.m):
-            for column in range(self.settings.n):
-                entry = GridEntry()
-                entry.coords = [row, column]
-                entry.bind(on_release = self.button_pressed)
-                self.add_widget(entry)
-        # print("Is this causing crash?") # It isn't, remove it.
-        self.field.reset()
-
-
-
-
-    def setSettings(self, *spam):
-        print("SETTINGS CALLED SPAM: %s", spam)
         
 
     def button_pressed(self, button):
@@ -281,32 +265,6 @@ class MainLayout(GridLayout):
 
         print("Result Popup")   # For debugging
         self.popup.open()
-        print("Result Popup")                                                   # For debugging
-
-        popupLabel = Label(text="Player {} won!".format(winner))                # Label object
-        newGameButton = Button(text='New game', size_hint_y=None, height=50)    # Button object
-        settingsButton = Button(text='Settings', size_hint_y=None, height=50)   # Button object
-        settingsButton.bind(on_release = self.setSettings)
-        
-        newGameButton.bind(on_release = self.newGame)  
-        newGameButton.bind(on_press = self.reset)
-        content = BoxLayout(orientation='vertical')                             # Layout for popup
-        content.add_widget(popupLabel)
-
-        buttons = BoxLayout(orientation='horizontal')                           # Layout for buttons on the bottom
-        buttons.add_widget(newGameButton)
-        buttons.add_widget(settingsButton)
-        content.add_widget(buttons)                                             # Adding buttons' layout under label object
-
-        popup = Popup(                                                          # Setting popup propreties
-                title = "END OF GAME",
-                content = content,
-                size_hint=(None, None),
-                size=(400, 400),
-                auto_dismiss = False)
-        
-        newGameButton.bind(on_release = popup.dismiss)                          # Also dismiss popup
-        popup.open()
 
 
 
