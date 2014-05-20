@@ -3,25 +3,30 @@ QGame
 
 Quatris game developed in pyhton
 
-### Settings
-This class contains the settings. It is passed to the init of the QMatch class. It contains:
-- List of players (as numbers)
-- Dictionary that associates to each player it's symbol. 
- 
-### QField
-This class is used for fields objects. It does all the field-operation such as:
-- Checking for a winner
-- Managing players' moves
-  
-### QMatch
-It is a match of the QGame. It may use a custum setting object. it deals turns and it starts and end the game
+### Widget tree
+MainScreen(BoxLayout)
+    GameGrid(GridLayout)
+        GridEntries(Button) (1 per ogni cella, insomma i bottoni che formano il campo)
+    Popup(Popup)
+        ScreenManager(ScreenManager)
+            ResultScreen(Screen)
+                Boxlayout(vertical)
+                    ResultLabel(Label)
+                    BoxLayout(horizontal)
+                        NewGameButton(Button)
+                        SettingsButton(Button)
+            SettingsScreen(Screen)
+            
+Separati nelle seguenti classi:
+-MainScreen (eredita da BoxLayout)
+-GameGrid (eredita da GridLayout) 
+-Popup (eredita, sempre che sia possibile, da Popup)
 
+Il main screen fa da "wrapper organizza tutto", per tenere il popup separato dal campo di gioco e non ridurre tutto a
+funzioni e pastrocchi nestati sul campo.
 
-### TO-ADD
-- Menu class
-- IA class 
-- GUI or at least better user-friendly interface
+GameGrid è la griglia di bottoni che fa da campo da gioco
 
+Popup salta fuori alla fine della partita mostrando il risultato nel resultscreen. Le settings sono uno screen accessibile da qui che dovrebbero rimanere quindi nel popup
 
-
-
+Non so bene se qualcuna di queste cose non si possa fare
