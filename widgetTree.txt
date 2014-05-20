@@ -1,0 +1,22 @@
+### Widget tree
+
+ MainScreen(BoxLayout)
+     GameGrid(GridLayout)
+        GridEntries(Button) (1 per ogni cella, insomma i bottoni che formano il campo)
+CustomPopup(Popup)
+    ScreenManager(ScreenManager)
+        ResultScreen(Screen)
+            Boxlayout(vertical)
+                ResultLabel(Label)
+                BoxLayout(horizontal)
+                    NewGameButton(Button)
+                    SettingsButton(Button)
+                    SettingsScreen(Screen)
+            
+Separati nelle seguenti classi:
+-MainScreen (eredita da BoxLayout)
+-GameGrid (eredita da GridLayout) 
+-Popup (eredita, sempre che sia possibile, da Popup)
+
+Il main screen fa da "wrapper organizza tutto", per tenere il popup separato dal campo di gioco e non ridurre tutto a
+funzioni e pastrocchi nestati sul campo.
