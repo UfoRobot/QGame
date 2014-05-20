@@ -185,14 +185,14 @@ class QGrid(GridLayout):
                 entry.coords = [row, column]
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
-        print("Is this causing crash?")
+        # print("Is this causing crash?") # It isn't, remove it.
         self.field.reset()
 
 
 
 
-    def setSettings(self):
-        print("SETTINGS CALLED")
+    def setSettings(self, *spam):
+        print("SETTINGS CALLED SPAM: %s", spam)
         
 
     def button_pressed(self, button):
