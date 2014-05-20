@@ -234,8 +234,6 @@ class MainLayout(GridLayout):
         # Reset field table
         self.field.reset()
 
-        # Reset popup's screen manager
-        self.sm.current = "rScreen"
 
     def setSettings(self, *args):
         print("SETTINGS CALLED")
