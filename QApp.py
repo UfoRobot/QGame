@@ -7,9 +7,11 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, StringProperty, NumericProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 
 
@@ -144,20 +146,20 @@ class QField():
             return False
 
 
+class MainLayout(GridLayout):
+    """ The main grid, where everything takes place... """
 
-
-
-class QGrid(GridLayout):
-    """ A custom GridLayout to place widgets on """
-
-    field = QField()
-    settings = Settings()
-    player = 1
+    winner = NumericProperty
 
     def __init__(self, *args, **kwargs):
-        """ Sets up the grid and overloads init """
+        """ Overloading init """
 
-        super(QGrid, self).__init__(*args, **kwargs)
+        super(MainLayout, self).__init__(*args, **kwargs)
+
+        """ Init initializing gaming grid """
+        self.field = QField()
+        self.settings = Settings()
+        self.player = 1                                                         # Starting player
         self.cols = self.settings.n
         for row in range(self.settings.m):
             for column in range(self.settings.n):
@@ -165,6 +167,53 @@ class QGrid(GridLayout):
                 entry.coords = [row, column]
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
+        self.winner = 0
+        
+
+        """ Initializing the result screen """
+        popupLabel = Label(text="Player {} won!".format(self.winner))           # Label object for showing the end-game status
+        newGameButton = Button(text='New game', size_hint_y=None, height=50)    # Button object for new game
+        settingsButton = Button(text='Settings', size_hint_y=None, height=50)   # Button object accessing settings
+
+        buttons = BoxLayout(orientation='horizontal')                           # Layout for buttons on the bottom
+        buttons.add_widget(newGameButton)
+        buttons.add_widget(settingsButton)
+
+        resultContent = BoxLayout(orientation='vertical')                       
+        resultContent.add_widget(popupLabel)
+        resultContent.add_widget(buttons)                                       # Adding buttons' layout under label object
+
+        resultScreen = Screen(name="rScreen")                                   # Screen object
+        resultScreen.add_widget(resultContent)                                  
+
+        """ Initializing the settings screen """
+
+        settingsLabel = Label(text="SETTINGS HERE")
+        closeButton = Button(text="Close", size_hint_y=None, height=50)
+        settingsContent = BoxLayout(orientation="vertical")
+        settingsContent.add_widget(settingsLabel)
+        settingsContent.add_widget(closeButton)
+        settingsScreen = Screen(name="sScreen")                                 # Screen object
+        settingsScreen.add_widget(settingsContent)
+
+        """ Initializing the sm (screen manager) widget and the popup  """
+        self.sm = ScreenManager()                                               # ScreenManager object
+
+        self.sm.add_widget(resultScreen)
+        self.sm.add_widget(settingsScreen)
+
+        self.popup = Popup(                                                     # Setting popup propreties
+                title = "END OF GAME",
+                content = self.sm,
+                size_hint=(None, None),
+                size=(400, 400),
+                auto_dismiss = False)
+
+        newGameButton.bind(on_release = self.popup.dismiss)                     # Dismiss popup first! The other order doesn't work.... boh!
+        newGameButton.bind(on_release = self.newGame)                           # New game on release
+        closeButton.bind(on_release = self.popup.dismiss)
+        closeButton.bind(on_release = self.newGame)
+        settingsButton.bind(on_release = self.setSettings)
 
     def newGame(self, *args):
         """ Starts a new game """
@@ -177,22 +226,21 @@ class QGrid(GridLayout):
         """ Reset buttons and field table """
 
         print("Reset")
-
-        self.clear_widgets()
-        for row in range(self.settings.m):
-            for column in range(self.settings.n):
-                entry = GridEntry()
-                entry.coords = [row, column]
-                entry.bind(on_release = self.button_pressed)
-                self.add_widget(entry)
-        print("Is this causing crash?")
+        
+        # Reset all grid-childs (buttons) to default color
+        for child in self.children:
+            child.background_color = (1,1,1,1)
+        
+        # Reset field table
         self.field.reset()
 
+        # Reset popup's screen manager
+        self.sm.current = "rScreen"
 
-
-
-    def setSettings(self):
+    def setSettings(self, *args):
         print("SETTINGS CALLED")
+
+        self.sm.current = "sScreen"
         
 
     def button_pressed(self, button):
@@ -206,38 +254,19 @@ class QGrid(GridLayout):
                 self.player = 2
             else:
                 self.player = 1
-        winner = self.field.checkWin()
-        if winner != None:
-            self.resultPopup(winner)
+        mayWin = self.field.checkWin()
+        if mayWin != None:
+            self.winner = mayWin
+            print("WE HAVE A WINNER!")
+            print(mayWin)
+            self.resultPopup()
 
-    def resultPopup(self, winner):
+    def resultPopup(self):
         """ Pops out when game ends.
         Shows result and allows to start a new game or modify settings """
 
-        print("Result Popup")                                                   # For debugging
-
-        popupLabel = Label(text="Player {} won!".format(winner))                # Label object
-        newGameButton = Button(text='New game', size_hint_y=None, height=50)    # Button object
-        settingsButton = Button(text='Settings', size_hint_y=None, height=50)   # Button object
-        settingsButton.bind(on_release = self.setSettings)
-        newGameButton.bind(on_release = self.reset())
-        content = BoxLayout(orientation='vertical')                             # Layout for popup
-        content.add_widget(popupLabel)
-
-        buttons = BoxLayout(orientation='horizontal')                           # Layout for buttons on the bottom
-        buttons.add_widget(newGameButton)
-        buttons.add_widget(settingsButton)
-        content.add_widget(buttons)                                             # Adding buttons' layout under label object
-
-        popup = Popup(                                                          # Setting popup propreties
-                title = "END OF GAME",
-                content = content,
-                size_hint=(None, None),
-                size=(400, 400),
-                auto_dismiss = False)
-        newGameButton.bind(on_release = self.newGame)                           # New game on release
-        newGameButton.bind(on_release = popup.dismiss)                          # Also dismiss popup
-        popup.open()
+        print("Result Popup")   # For debugging
+        self.popup.open()
 
 
 
@@ -251,7 +280,7 @@ class GridEntry(Button):
 
 class QApp(App):
     def build(self):
-        return QGrid()
+        return MainLayout()
 
 if __name__ == "__main__":
     QApp().run()
