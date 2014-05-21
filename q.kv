@@ -1,0 +1,54 @@
+<CustomPopup>:
+    size_hint_x: 0.7
+    size_hint_y: 0.7
+    auto_dismiss: False
+
+
+    ScreenManager:
+        id: s_manager
+
+        Screen:
+            id: r_screen
+            name: 'result_screen'
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 10
+
+                Label:
+                    halign: 'center'
+                    size_hint_y: None
+                    height: 100
+                    text: "END OF GAME"
+
+                Label:
+                    text: 'Player {} won!'.format(root.winner)
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 50
+
+                    Button:
+                        text: 'New Game'
+                        on_release: root.newGame()
+
+                    Button:
+                        text: 'Settings'
+                        on_release: root.switchToSettings()
+        Screen:
+            id: s_screen
+            name: 'settings_screen'
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 10
+
+            Label:
+                text: 'SETTINGS HERE'
+
+            Button:
+                size_hint_y: None
+                height: 50
+                text: 'Back'
+                on_release: root.close()

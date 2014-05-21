@@ -13,11 +13,15 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.modalview import ModalView
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty
-from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition, NoTransition
 
 class CustomPopup(ModalView):
     newGameFunction = ObjectProperty()
     winner = NumericProperty()
+
+    def resetPopup(self):
+        self.ids.s_manager.transition = NoTransition
+        self.ids.s_manager.current = "result_screen"
 
     def newGame(self):
         print("NEW GAME")
@@ -30,17 +34,16 @@ class CustomPopup(ModalView):
 
     def close(self):
         self.dismiss()
-        self.ids.s_manager.current = "result_screen"
         self.newGame()
 
-class MainLayout(GridLayout):
+class GameGrid(GridLayout):
     """ The main grid, where everything takes place... """
 
 
     def __init__(self, *args, **kwargs):
         """ Overloading init """
 
-        super(MainLayout, self).__init__(*args, **kwargs)
+        super(GameGrid, self).__init__(*args, **kwargs)
 
         """ Init initializing gaming grid """
         self.field = QField()
@@ -49,8 +52,7 @@ class MainLayout(GridLayout):
         self.cols = self.settings.n
         for row in range(self.settings.m):
             for column in range(self.settings.n):
-                entry = GridEntry()
-                entry.coords = [row, column]
+                entry = GridEntry(coords = [row, column])
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
         self.winner = 0
@@ -117,7 +119,7 @@ class GridEntry(Button):
 
 class QApp(App):
     def build(self):
-        return MainLayout()
+        return GameGrid()
 
 if __name__ == "__main__":
     QApp().run()
