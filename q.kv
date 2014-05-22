@@ -1,3 +1,19 @@
+<TopBar>
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: 75
+
+    Label:
+        id: show_current
+        text: 'Player {}'.format(root.currentPlayer)
+    
+    Label:
+        text: 'Logo or whatever'
+
+    Button:
+        text: 'Menu'
+        on_release: root.startmenu()
+
 <CustomPopup>:
     size_hint_x: 0.7
     size_hint_y: 0.7
@@ -59,3 +75,6 @@
         Rectangle:
             pos: self.pos
             size: (250, self.size[1])
+
+<MainLayout>
+    orientation: 'vertical'
