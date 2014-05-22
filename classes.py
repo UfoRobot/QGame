@@ -72,10 +72,10 @@ class QField():
               
                 cross = []                              # List to be checked by __checkSequence
                 cross.append(self.field[i][j])
-                cross.append(self.field[[i-1][j]])
-                cross.append(self.field[[i+1][j]])
-                cross.appned(self.field[i][j+1])
-                cross.appned(self.field[i][j-1])
+                cross.append(self.field[i-1][j])
+                cross.append(self.field[i+1][j])
+                cross.append(self.field[i][j+1])
+                cross.append(self.field[i][j-1])
 
                 if self.__checkSequence(cross) != None:
                     self.field[i][j] = -1
