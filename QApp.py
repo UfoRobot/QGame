@@ -32,6 +32,8 @@ class CustomPopup(ModalView):
         self.dismiss()
         self.ids.s_manager.current = "result_screen"
         #self.newGame()
+class customLabel(Label):
+    pass
 
 class MainLayout(GridLayout):
     """ The main grid, where everything takes place... """
@@ -53,7 +55,7 @@ class MainLayout(GridLayout):
                 entry.coords = [row, column]
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
-        self.label = Label( markup = True, background = (0,1,1,0) )
+        self.label = customLabel( markup = True)
         self.add_widget(self.label)
         self.updateLabel()
         
@@ -90,7 +92,7 @@ class MainLayout(GridLayout):
         self.updateLabel()
     
     def updateLabel(self):
-        self.label.text='   [color=#ADFE] Player [b] {} [/b] [/color]'.format(str(self.player) )
+        self.label.text='   [color=#B3D3E8][b] Player  {} [/b] [/color]'.format(str(self.player) )
         self.label.texture_update()
 
     def button_pressed(self, button):
