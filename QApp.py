@@ -53,8 +53,10 @@ class MainLayout(GridLayout):
                 entry.coords = [row, column]
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
-        self.label = Label()
-        self.changePlayerLabel()
+        self.label = Label( markup = True )
+        self.add_widget(self.label)
+        self.updateLabel()
+        
 
         
         self.winner = 0
@@ -85,12 +87,12 @@ class MainLayout(GridLayout):
                 child.background_color = (1,1,1,1)
             if self.field.field[i][j] == -1:
                 child.background_color = (1,0,1,1)
-        self.changePlayerLabel()
-    def changePlayerLabel(self):
-        self.remove_widget(self.label)
-        self.label = Label(text='    Player [b] {} [/b]'.format(str(self.player)), markup = True)
-        self.add_widget(self.label)
-        pass
+        self.label.text='   [color=] Player [b] {} [/b] [/color]'.format(str(self.player) )
+        self.label.texture_update()
+    
+    def updateLabel(self):
+        self.label.text='   [color=] Player [b] {} [/b] [/color]'.format(str(self.player) )
+        self.label.texture_update()
 
     def button_pressed(self, button):
         x, y = button.coords
