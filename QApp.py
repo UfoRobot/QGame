@@ -78,6 +78,7 @@ class MainLayout(GridLayout):
                 child.background_color = (1,1,1,1)
             if self.field.field[i][j] == -1:
                 child.background_color = (1,0,1,1)
+            
 
 
     def button_pressed(self, button):
@@ -96,7 +97,7 @@ class MainLayout(GridLayout):
 
         #Cross rule here
         self.crossRule()
-
+        self.updateButtons()
         mayWin = self.field.checkWin()
         if mayWin != None:
             self.winner = mayWin
