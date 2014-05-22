@@ -36,8 +36,6 @@ class QField():
     # Class members
     #
     
-    # Deafult member values, may be overwritten during init
-    settings = Settings()
 
     #
     # Class methods
@@ -47,6 +45,8 @@ class QField():
         """ Initialzize an empty field. Custom size can be passed as argument """
         if settings != None:
             self.settings = settings
+        else:
+            self.settings = Settings()
         self.reset()
 
     def reset(self):
@@ -62,6 +62,28 @@ class QField():
             return True
         else:
             return False
+
+    def cross_rule(self):
+        """ Apply cross rule: a cross get's muted """
+
+        for i in range(1, self.settings.m-1):
+            for j in range(1, self.settings.n-1):
+                # i, j is the position of the center of the cross
+              
+                cross = []                              # List to be checked by __checkSequence
+                cross.appned(self.field[i][j])
+                cross.append(self.field[[i-1][j])
+                cross.append(self.field[[i+1][j])
+                cross.appned(self.field[i][j+1])
+                cross.appned(self.field[i][j-1])
+
+                if self.__checkSequence(cross) != None:
+                    self.field[i][j] = -1
+                    self.field[i+1][j] = -1
+                    self.field[i-1][j] = -1
+                    self.field[i][j+1] = -1
+                    self.field[i][j-1] = -1
+    
 
     def __checkSequence(self, sequence, lgt=None):
         """ Given a sequence returns the element that occurs 4 times
