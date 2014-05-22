@@ -22,8 +22,9 @@ class Settings():
 
     def __init__(self):
     # Sets default settings values
-        self.m = 6
-        self.n = 6
+        self.m = 10
+        self.n = 10
+        self.linelgt = 5
         self.nPlayers = 2
         self.playersSymbols = {1:"X", 2:"O"}
         self.playersColors = {1: (1, 0, 0, 1), 2: (0, 1, 0, 1)}
@@ -62,10 +63,11 @@ class QField():
         else:
             return False
 
-    def __checkSequence(self, sequence):
+    def __checkSequence(self, sequence, lgt=None):
         """ Given a sequence returns the element that occurs 4 times
             in a row. If more the first, if none None """
-
+        if lgt == None:
+            lgt = self.settings.linelgt
         mayWin = sequence[0]
         count = 0
         for x in sequence:
@@ -74,7 +76,7 @@ class QField():
             else:
                 mayWin = x
                 count = 1
-            if count == 4 and mayWin != 0:
+            if count == lgt and mayWin != 0:
                 return mayWin
         return None
 
@@ -110,7 +112,7 @@ class QField():
                 block.append(self.field[i][j+1])
                 block.append(self.field[i+1][j])
                 block.append(self.field[i+1][j+1])
-                mayWin = self.__checkSequence(block)
+                mayWin = self.__checkSequence(block, 4)
                 if mayWin != None:
                     return mayWin
                 block = []
