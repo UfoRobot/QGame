@@ -53,6 +53,8 @@ class MainLayout(GridLayout):
                 entry.coords = [row, column]
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
+        label = Label()
+        self.add_widget(label)
         self.winner = 0
         
        
@@ -72,7 +74,10 @@ class MainLayout(GridLayout):
         """ Updates buttons background based on field table """
 
         for child in self.children:
-            i, j = child.coords
+            try:
+                i, j = child.coords
+            except AttributeError:
+                continue
             
             if self.field.field[i][j] == 0:
                 child.background_color = (1,1,1,1)
