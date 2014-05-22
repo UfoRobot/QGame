@@ -68,16 +68,25 @@ class MainLayout(GridLayout):
 
         print("Reset")
         
-        # Reset all grid-childs (buttons) to default color
-        for child in self.children:
-            child.background_color = (1,1,1,1)
-        
         # Reset field table
         self.field.reset()
+
+        self.updateButtons()
 
 
     def setSettings(self, *args):
         print("SETTINGS CALLED")
+
+    def updateButtons(self):
+        """ Updates buttons background based on field table """
+
+        for child in self.children:
+            i, j = child.coords
+            
+            if self.field.field[i][j] == 0:
+                child.background_color = (1,1,1,1)
+            if self.field.field[i][j] == -1:
+                child.background_color = (1,0,1,1)
 
 
     def button_pressed(self, button):
@@ -94,10 +103,16 @@ class MainLayout(GridLayout):
                 print ("Player is 1")
                 self.player = 1
 
+        #Cross rule here
+        self.crossRule()
+
         mayWin = self.field.checkWin()
         if mayWin != None:
             self.winner = mayWin
             self.callPopup()
+
+    def crossRule(self):
+        self.field.cross_rule()
             
     def callPopup(self):
         """ Pops out when game ends.
