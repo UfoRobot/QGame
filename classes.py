@@ -28,6 +28,7 @@ class Settings():
         self.nPlayers = 2
         self.playersSymbols = {1:"X", 2:"O"}
         self.playersColors = {1: (1, 0, 0, 1), 2: (0, 1, 0, 1), -1: (0,1,1,0)}
+        # 1: red; 2: green; -1 (blocked): purple
 
 class QField():
     """ A field for the Q-Game and all methods needed to play """
