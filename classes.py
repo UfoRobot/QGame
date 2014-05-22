@@ -42,18 +42,15 @@ class QField():
     # Class methods
     #
     
-    def __init__(self, settings = None):
+    def __init__(self, settings = Settings):
         """ Initialzize an empty field. Custom size can be passed as argument """
-        if settings != None:
-            self.settings = settings
-        else:
-            self.settings = Settings()
-        self.reset()
+        self.settings = settings()
+        self.field = [[0 for x in range(self.settings.m)] for y in range(self.settings.n)] 
 
     def reset(self):
-        self.field = [] 
         for row in range(self.settings.n):
-            self.field.append([0 for x in range(self.settings.m)])
+            for tile in range (self.settings.m):
+                self.field[row][tile] = 0
 
     def move(self, player, x, y):
         self.field[x][y] = player
