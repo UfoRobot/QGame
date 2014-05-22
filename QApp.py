@@ -58,9 +58,6 @@ class MainLayout(GridLayout):
         self.label = customLabel( markup = True)
         self.add_widget(self.label)
         self.updateLabel()
-        
-
-        
         self.winner = 0
         self.updateButtons()
        
@@ -84,7 +81,6 @@ class MainLayout(GridLayout):
                 i, j = child.coords
             except AttributeError:
                 continue
-            
             if self.field.field[i][j] == 0:
                 child.background_color = (1,1,1,1)
             if self.field.field[i][j] == -1:
@@ -125,11 +121,6 @@ class MainLayout(GridLayout):
         print("Result Popup")   # For debugging
         self.popup = CustomPopup(newGameFunction=self.newGame, winner = self.winner)
         self.popup.open()
-
-
-
- 
-
 
 class GridEntry(Button):
     """ A custom button widget """
