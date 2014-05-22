@@ -45,7 +45,7 @@ class QField():
     def __init__(self, settings = Settings):
         """ Initialzize an empty field. Custom size can be passed as argument """
         self.settings = settings()
-        self.field = [] 
+        self.field = [[0 for x in range(self.settings.m)] for y in range(self.settings.n)] 
 
     def reset(self):
         for row in range(self.settings.n):
