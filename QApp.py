@@ -103,10 +103,8 @@ class MainLayout(GridLayout):
             button.background_color = self.settings.playersColors[self.player]
 
             if self.player == 1:
-                print ("Player is 2")
                 self.player = 2
             else:
-                print ("Player is 1")
                 self.player = 1
 
         #Cross rule here
