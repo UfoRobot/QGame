@@ -14,6 +14,7 @@ from kivy.uix.label import Label
 from kivy.uix.modalview import ModalView
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+from kivy.event import EventDispatcher
 
 class CustomPopup(ModalView):
     newGameFunction = ObjectProperty()
@@ -32,22 +33,30 @@ class CustomPopup(ModalView):
         self.dismiss()
         self.ids.s_manager.current = "result_screen"
         #self.newGame()
-class customLabel(Label):
-    pass
 
-class MainLayout(GridLayout):
+class TopBar(BoxLayout):
+
+    currentPlayer = NumericProperty()
+
+    def startMenu(self):
+        pass
+
+
+
+class GameGrid(GridLayout):
     """ The main grid, where everything takes place... """
-
+    
+    player = NumericProperty()
 
     def __init__(self, *args, **kwargs):
         """ Overloading init """
 
-        super(MainLayout, self).__init__(*args, **kwargs)
+        super(GameGrid, self).__init__(*args, **kwargs)
 
         """ Init initializing gaming grid """
         self.field = QField()
         self.settings = Settings()
-        self.player = 1                                                         # Starting player
+        self.player = 1                                                        # Starting player
         self.cols = self.settings.n
         for row in range(self.settings.m):
             for column in range(self.settings.n):
@@ -55,9 +64,6 @@ class MainLayout(GridLayout):
                 entry.coords = [row, column]
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
-        self.label = customLabel( markup = True)
-        self.add_widget(self.label)
-        self.updateLabel()
         
 
         
@@ -89,11 +95,7 @@ class MainLayout(GridLayout):
                 child.background_color = (1,1,1,1)
             if self.field.field[i][j] == -1:
                 child.background_color = (1,0,1,1)
-        self.updateLabel()
     
-    def updateLabel(self):
-        self.label.text='   [color=#B3D3E8][b] Player  {} [/b] [/color]'.format(str(self.player) )
-        self.label.texture_update()
 
     def button_pressed(self, button):
         x, y = button.coords
@@ -125,6 +127,21 @@ class MainLayout(GridLayout):
         print("Result Popup")   # For debugging
         self.popup = CustomPopup(newGameFunction=self.newGame, winner = self.winner)
         self.popup.open()
+
+class MainLayout(BoxLayout):
+
+    def __init__(self, *args, **kwargs):
+        """ Overloading init """
+
+        super(MainLayout, self).__init__(*args, **kwargs)
+
+        self.settings = Settings()
+        self.gameGrid = GameGrid(settings = self.settings)
+        self.topBar = TopBar(currentPlayer = self.gameGrid.player)
+        
+
+        self.add_widget(self.topBar)
+        self.add_widget(self.gameGrid)
 
 
 
