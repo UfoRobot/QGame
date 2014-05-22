@@ -61,16 +61,7 @@ class MainLayout(GridLayout):
 
         print("New game")
 
-        self.reset()
-
-    def reset(self, *args):
-        """ Reset buttons and field table """
-
-        print("Reset")
-        
-        # Reset field table
         self.field.reset()
-
         self.updateButtons()
 
 
