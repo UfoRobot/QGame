@@ -67,20 +67,20 @@ class QField():
         for i in range(1, self.settings.m-1):
             for j in range(1, self.settings.n-1):
                 # i, j is the position of the center of the cross
-              
-                cross = []                              # List to be checked by __checkSequence
-                cross.append(self.field[i][j])
-                cross.append(self.field[i-1][j])
-                cross.append(self.field[i+1][j])
-                cross.append(self.field[i][j+1])
-                cross.append(self.field[i][j-1])
+                if self.field[i][j] >0:
+                    cross = []                              # List to be checked by __checkSequence
+                    cross.append(self.field[i][j])
+                    cross.append(self.field[i-1][j])
+                    cross.append(self.field[i+1][j])
+                    cross.append(self.field[i][j+1])
+                    cross.append(self.field[i][j-1])
 
-                if self.__checkSequence(cross) != None:
-                    self.field[i][j] = -1
-                    #self.field[i+1][j] = -1
-                    #self.field[i-1][j] = -1
-                    #self.field[i][j+1] = -1
-                    #self.field[i][j-1] = -1
+                    if self.__checkSequence(cross) != None:
+                        self.field[i][j] = -1
+                        #self.field[i+1][j] = -1
+                        #self.field[i-1][j] = -1
+                        #self.field[i][j+1] = -1
+                        #self.field[i][j-1] = -1
     
 
     def __checkSequence(self, sequence, lgt=None):
