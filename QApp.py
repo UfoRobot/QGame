@@ -62,7 +62,7 @@ class MainLayout(GridLayout):
 
         
         self.winner = 0
-        
+        self.updateButtons()
        
     def newGame(self, *args):
         """ Starts a new game """
