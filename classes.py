@@ -42,12 +42,9 @@ class QField():
     # Class methods
     #
     
-    def __init__(self, settings = None):
+    def __init__(self, settings = Settings):
         """ Initialzize an empty field. Custom size can be passed as argument """
-        if settings != None:
-            self.settings = settings
-        else:
-            self.settings = Settings()
+            self.settings = settings()
         self.reset()
 
     def reset(self):
