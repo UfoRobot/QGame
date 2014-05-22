@@ -71,7 +71,7 @@ class QField():
                 # i, j is the position of the center of the cross
               
                 cross = []                              # List to be checked by __checkSequence
-                cross.appned(self.field[i][j])
+                cross.append(self.field[i][j])
                 cross.append(self.field[[i-1][j]])
                 cross.append(self.field[[i+1][j]])
                 cross.appned(self.field[i][j+1])
