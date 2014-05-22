@@ -53,7 +53,7 @@ class MainLayout(GridLayout):
                 entry.coords = [row, column]
                 entry.bind(on_release = self.button_pressed)
                 self.add_widget(entry)
-        self.label = Label( markup = True )
+        self.label = Label( markup = True, background = (0,1,1,0) )
         self.add_widget(self.label)
         self.updateLabel()
         
@@ -87,11 +87,10 @@ class MainLayout(GridLayout):
                 child.background_color = (1,1,1,1)
             if self.field.field[i][j] == -1:
                 child.background_color = (1,0,1,1)
-        self.label.text='   [color=] Player [b] {} [/b] [/color]'.format(str(self.player) )
-        self.label.texture_update()
+        self.updateLabel()
     
     def updateLabel(self):
-        self.label.text='   [color=] Player [b] {} [/b] [/color]'.format(str(self.player) )
+        self.label.text='   [color=#ADFE] Player [b] {} [/b] [/color]'.format(str(self.player) )
         self.label.texture_update()
 
     def button_pressed(self, button):
