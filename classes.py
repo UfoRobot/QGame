@@ -2,7 +2,7 @@
 # Imports
 #
 from __future__ import print_function
-
+from random import randint as rndint
 
 #
 # Class definitions
@@ -24,6 +24,8 @@ class Settings():
     # Sets default settings values
         self.m = 10
         self.n = 10
+        self.disabledBlocks = int(0.1 * (self.m*self.n) )
+        self.randomEnable = True
         self.linelgt = 5
         self.nPlayers = 2
         self.playersSymbols = {1:"X", 2:"O"}
@@ -46,11 +48,17 @@ class QField():
         """ Initialzize an empty field. Custom size can be passed as argument """
         self.settings = settings()
         self.field = [[0 for x in range(self.settings.m)] for y in range(self.settings.n)] 
-
+        if self.settings.randomEnable == True:
+            self.addRandomBlocks()
+    def addRandomBlocks(self):
+        for n in range(self.settings.disabledBlocks):
+            self.field[rndint(0, self.settings.m-1)][rndint(0, self.settings.n-1)] = -1
     def reset(self):
         for row in range(self.settings.n):
             for tile in range (self.settings.m):
                 self.field[row][tile] = 0
+        if self.settings.randomEnable == True:
+            self.addRandomBlocks()
 
     def move(self, player, x, y):
         self.field[x][y] = player
@@ -67,20 +75,20 @@ class QField():
         for i in range(1, self.settings.m-1):
             for j in range(1, self.settings.n-1):
                 # i, j is the position of the center of the cross
-              
-                cross = []                              # List to be checked by __checkSequence
-                cross.append(self.field[i][j])
-                cross.append(self.field[i-1][j])
-                cross.append(self.field[i+1][j])
-                cross.append(self.field[i][j+1])
-                cross.append(self.field[i][j-1])
+                if self.field[i][j] >0:
+                    cross = []                              # List to be checked by __checkSequence
+                    cross.append(self.field[i][j])
+                    cross.append(self.field[i-1][j])
+                    cross.append(self.field[i+1][j])
+                    cross.append(self.field[i][j+1])
+                    cross.append(self.field[i][j-1])
 
-                if self.__checkSequence(cross) != None:
-                    self.field[i][j] = -1
-                    #self.field[i+1][j] = -1
-                    #self.field[i-1][j] = -1
-                    #self.field[i][j+1] = -1
-                    #self.field[i][j-1] = -1
+                    if self.__checkSequence(cross) != None:
+                        self.field[i][j] = -1
+                        #self.field[i+1][j] = -1
+                        #self.field[i-1][j] = -1
+                        #self.field[i][j+1] = -1
+                        #self.field[i][j-1] = -1
     
 
     def __checkSequence(self, sequence, lgt=None):
