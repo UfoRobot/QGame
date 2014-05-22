@@ -31,7 +31,7 @@ class CustomPopup(ModalView):
     def close(self):
         self.dismiss()
         self.ids.s_manager.current = "result_screen"
-        self.newGame()
+        #self.newGame()
 
 class MainLayout(GridLayout):
     """ The main grid, where everything takes place... """
@@ -88,8 +88,10 @@ class MainLayout(GridLayout):
             button.background_color = self.settings.playersColors[self.player]
 
             if self.player == 1:
+                print ("Player is 2")
                 self.player = 2
             else:
+                print ("Player is 1")
                 self.player = 1
 
         mayWin = self.field.checkWin()
