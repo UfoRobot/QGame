@@ -16,6 +16,14 @@
 
 <GameGrid>
     spacing: 2
+    padding: 5
+    canvas.before:
+        Color:
+            rgba: 128, 128, 128, 0.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
 <CustomPopup>:
     size_hint_x: 0.7
     size_hint_y: 0.7
@@ -65,15 +73,18 @@
             Label:
                 text: 'SETTINGS HERE'
 
-            Button:
-                size_hint_y: None
-                height: 50
-                text: 'Back'
-                on_release: root.close()
+            BoxLayout:
+                padding: 10
+                Button:
+                    size_hint_y: None
+                    height: 50
+                    text: 'Back'
+                    on_release: root.close()
 <GridEntry>:
     border: 16, 16, 16, 16
     background_normal: './img/base.png'
     background_down: './img/base_down.png'
+
 <customLabel>:
     canvas.before:
         Color:
@@ -88,8 +99,16 @@
         Rectangle:
             pos: self.pos
             size: (250, self.size[1])
+
 <MainLayout>:
     orientation: 'vertical'
     padding: 5
     spacing: 5
+
+    canvas.before:
+        Color:
+            rgba: 128, 128, 128, 0.1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
