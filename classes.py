@@ -22,8 +22,8 @@ class Settings():
 
     def __init__(self):
     # Sets default settings values
-        self.m = 10
-        self.n = 10
+        self.m = 3
+        self.n = 3
         self.disabledBlocks = int(0.1 * (self.m*self.n) )
         self.randomEnable = True
         self.lineLgt = 5
@@ -73,7 +73,13 @@ class QField():
             return True
         else:
             return False
-
+    def isDraw(self):
+        for i in range(1, self.settings.m):
+            for j in range(1, self.settings.n):
+                if self.field[i][j] == 0 :
+                    return False
+        return True
+    
     def cross_rule(self):
         """ Apply cross rule: a cross get's muted """
 

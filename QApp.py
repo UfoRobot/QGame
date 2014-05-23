@@ -120,7 +120,10 @@ class GameGrid(GridLayout):
         if mayWin != None:
             self.winner = mayWin
             self.callPopup()
-
+        if self.field.isDraw():
+            self.winner = 0
+            self.callPopup()
+            
     def crossRule(self):
         self.field.cross_rule()
             
