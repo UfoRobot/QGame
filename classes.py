@@ -22,9 +22,9 @@ class Settings():
 
     def __init__(self):
     # Sets default settings values
-        self.m = 10
-        self.n = 10
-        self.disabledBlocks = int(0.1 * (self.m*self.n) )
+        self.m = 12
+        self.n = 12
+        self.disabledBlocks = int(0.1 * (self.m*self.n) ) + int(0.3*((self.m*self.n)/10))
         self.randomEnable = True
         self.lineLgt = 5
         self.nPlayers = 2
@@ -77,10 +77,6 @@ class QField():
                 if var == False:
                     return False
             return True
-                
-                
-
-           
            
            
         for n in range(self.settings.disabledBlocks):
