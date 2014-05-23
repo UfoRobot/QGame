@@ -3,6 +3,7 @@
 #
 from __future__ import print_function
 from random import randint as rndint
+from rand_dead_blocks import rand_dead_blocks as rndebl
 
 #
 # Class definitions
@@ -56,6 +57,7 @@ class QField():
         if self.settings.randomEnable == True:
             self.addRandomBlocks()
     def addRandomBlocks(self):
+<<<<<<< HEAD
         def noNeighbours(self, x, y):
             try:
                 a = self.field[x-1][y] != -1
@@ -88,6 +90,11 @@ class QField():
                     self.field[x][y] = -1
                     break
                 
+=======
+        rndebl(self,self.settings.disabledBlocks,-0.4,2)
+        # for n in range(self.settings.disabledBlocks):
+            # self.field[rndint(0, self.settings.m-1)][rndint(0, self.settings.n-1)] = -1
+>>>>>>> b9a5e9478f96697b7cf7ec302fb22669b57c35af
     def reset(self):
         for row in range(self.settings.n):
             for tile in range (self.settings.m):
