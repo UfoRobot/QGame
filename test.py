@@ -32,7 +32,12 @@ Builder.load_string('''
 class CustomLabel(Label):
     value = NumericProperty()
 
+    def updateValue(self):
+        self.value +=1
+
 class WorkingClass(BoxLayout):
+    
+    labelUpdate = ObjectProperty()
 
     def __init__(self, *args, **kwargs):
 
@@ -43,6 +48,7 @@ class WorkingClass(BoxLayout):
     def update(self):
         self.a += 1
         print(self.a)
+        self.labelUpdate()
 
 class MainLayout(BoxLayout):
 
@@ -50,8 +56,8 @@ class MainLayout(BoxLayout):
 
         super(MainLayout, self).__init__(*args, **kwargs)
         
-        self.workingClass = WorkingClass()
-        self.customLabel = CustomLabel(value=self.workingClass.a)
+        self.customLabel = CustomLabel(value=5)
+        self.workingClass = WorkingClass(labelUpdate = self.customLabel.updateValue)
 
         self.add_widget(self.customLabel)
         self.add_widget(self.workingClass)
