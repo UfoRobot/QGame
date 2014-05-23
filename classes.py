@@ -3,7 +3,7 @@
 #
 from __future__ import print_function
 from random import randint as rndint
-from rand_dead_blocks import rand_dead_blocks as rndebl
+from RandomDeadBlocks import rand_dead_blocks as rndebl
 
 #
 # Class definitions
