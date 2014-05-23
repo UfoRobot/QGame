@@ -73,7 +73,13 @@ class QField():
             return True
         else:
             return False
-
+    def isDraw(self):
+        for i in range( self.settings.m):
+            for j in range( self.settings.n):
+                if self.field[i][j] == 0 :
+                    return False
+        return True
+    
     def cross_rule(self):
         """ Apply cross rule: a cross get's muted """
 
