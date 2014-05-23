@@ -23,8 +23,8 @@ class Settings():
 
     def __init__(self):
     # Sets default settings values
-        self.m = 12
-        self.n = 12
+        self.m = 10
+        self.n = 10
         self.disabledBlocks = int(0.1 * (self.m*self.n) ) + int(0.3*((self.m*self.n)/10))
         self.randomEnable = True
         self.lineLgt = 5
@@ -57,44 +57,9 @@ class QField():
         if self.settings.randomEnable == True:
             self.addRandomBlocks()
     def addRandomBlocks(self):
-<<<<<<< HEAD
-        def noNeighbours(self, x, y):
-            try:
-                a = self.field[x-1][y] != -1
-            except IndexError:
-                a = True
-            try:
-                b = self.field[x+1][y] != -1 
-            except IndexError:
-                b = True
-            try:
-                c = self.field[x][y-1] != -1 
-            except IndexError:
-                c = True
-            try:
-                d = self.field[x][y+1] != -1 
-            except IndexError:
-                d = True
-            for var in (a,b,c,d):
-                if var == False:
-                    return False
-            return True
-           
-           
-        for n in range(self.settings.disabledBlocks):
-            while True:
-                x, y = rndint(0, self.settings.m-1), rndint(0, self.settings.n-1)
-                if noNeighbours(self,x,y):
-                
-                    #--
-                    self.field[x][y] = -1
-                    break
-                
-=======
-        rndebl(self,self.settings.disabledBlocks,-0.4,2)
+        rndebl(self,self.settings.disabledBlocks,-0.9,3)
         # for n in range(self.settings.disabledBlocks):
             # self.field[rndint(0, self.settings.m-1)][rndint(0, self.settings.n-1)] = -1
->>>>>>> b9a5e9478f96697b7cf7ec302fb22669b57c35af
     def reset(self):
         for row in range(self.settings.n):
             for tile in range (self.settings.m):
@@ -208,4 +173,3 @@ class QField():
         if blockWinner != None:
             return blockWinner
         return None
-
