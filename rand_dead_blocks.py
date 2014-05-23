@@ -29,7 +29,7 @@ def rand_dead_blocks(self,num_dead_blocks=1,coeff_surround=-0.2,square_to_modify
                 else:
                     self.values_per_square[(x,y)]+=value_to_set
     def mod_surround(self, X, Y, coeff, square_to_modify):
-        mod_matrix(value_to_set = coeff , maxm = X + square_to_modify,maxn=Y+square_to_modify, 
+        mod_matrix(self,value_to_set = coeff , maxm = X + square_to_modify,maxn=Y+square_to_modify, 
                     minM=X-square_to_modify,minN=Y-square_to_modify)
 
     self.values_per_square = {}
