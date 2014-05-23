@@ -21,6 +21,8 @@ Builder.load_string('''
     orientation: 'vertical'
 
     Button:
+        background_normal: './img/base.png'
+        background_down: './img/base_down.png'
         text: 'Update'
         on_release: root.update()
 
