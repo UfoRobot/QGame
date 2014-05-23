@@ -26,10 +26,14 @@ class Settings():
         self.n = 10
         self.disabledBlocks = int(0.1 * (self.m*self.n) )
         self.randomEnable = True
-        self.linelgt = 5
+        self.lineLgt = 5
         self.nPlayers = 2
         self.playersSymbols = {1:"X", 2:"O"}
-        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 1, 0, 1), -1: (0,1,1,0)}
+        self.playersColors = {
+                0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
+                1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},
+                2: {"normal": "./img/red.png", "down": "./img/red_down.png"}
+            }
         # 1: red; 2: green; -1 (blocked): purple
 
 class QField():
@@ -91,11 +95,11 @@ class QField():
                         #self.field[i][j-1] = -1
     
 
-    def __checkSequence(self, sequence, lgt=None):
+    def __checkSequence(self, sequence, lgt = None):
         """ Given a sequence returns the element that occurs 4 times
             in a row. If more the first, if none None """
         if lgt == None:
-            lgt = self.settings.linelgt
+            lgt = self.settings.lineLgt
         mayWin = sequence[0]
         count = 0
         for x in sequence:
