@@ -57,7 +57,7 @@ class QField():
         if self.settings.randomEnable == True:
             self.addRandomBlocks()
     def addRandomBlocks(self):
-        rndebl(self,self.settings.disabledBlocks,-0.2,4)
+        rndebl(self,self.settings.disabledBlocks,-0.4,2)
         # for n in range(self.settings.disabledBlocks):
             # self.field[rndint(0, self.settings.m-1)][rndint(0, self.settings.n-1)] = -1
     def reset(self):
