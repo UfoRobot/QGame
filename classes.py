@@ -74,8 +74,8 @@ class QField():
         else:
             return False
     def isDraw(self):
-        for i in range(1, self.settings.m):
-            for j in range(1, self.settings.n):
+        for i in range( self.settings.m):
+            for j in range( self.settings.n):
                 if self.field[i][j] == 0 :
                     return False
         return True
