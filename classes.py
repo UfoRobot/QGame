@@ -22,8 +22,8 @@ class Settings():
 
     def __init__(self):
     # Sets default settings values
-        self.m = 3
-        self.n = 3
+        self.m = 10
+        self.n = 10
         self.disabledBlocks = int(0.1 * (self.m*self.n) )
         self.randomEnable = True
         self.lineLgt = 5
