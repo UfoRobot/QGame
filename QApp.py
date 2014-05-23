@@ -38,6 +38,13 @@ class TopBar(BoxLayout):
 
     currentPlayer = NumericProperty()
 
+    def labelUpdate(self):
+        if self.currentPlayer == 1:
+            self.currentPlayer = 2
+        else:
+            self.currentPlayer = 1
+
+
     def startMenu(self):
         pass
 
@@ -46,7 +53,7 @@ class TopBar(BoxLayout):
 class GameGrid(GridLayout):
     """ The main grid, where everything takes place... """
     
-    player = NumericProperty()
+    labelUpdate = ObjectProperty()
 
     def __init__(self, *args, **kwargs):
         """ Overloading init """
@@ -104,6 +111,7 @@ class GameGrid(GridLayout):
                 self.player = 2
             else:
                 self.player = 1
+        self.labelUpdate()
 
         #Cross rule here
         self.crossRule()
@@ -132,8 +140,8 @@ class MainLayout(BoxLayout):
         super(MainLayout, self).__init__(*args, **kwargs)
 
         self.settings = Settings()
-        self.gameGrid = GameGrid(settings = self.settings)
-        self.topBar = TopBar(currentPlayer = self.gameGrid.player)
+        self.topBar = TopBar(currentPlayer = 1)
+        self.gameGrid = GameGrid(settings = self.settings, labelUpdate = self.topBar.labelUpdate)
         
 
         self.add_widget(self.topBar)
