@@ -56,8 +56,42 @@ class QField():
         if self.settings.randomEnable == True:
             self.addRandomBlocks()
     def addRandomBlocks(self):
+        def noNeighbours(self, x, y):
+            try:
+                a = self.field[x-1][y] != -1
+            except IndexError:
+                a = True
+            try:
+                b = self.field[x+1][y] != -1 
+            except IndexError:
+                b = True
+            try:
+                c = self.field[x][y-1] != -1 
+            except IndexError:
+                c = True
+            try:
+                d = self.field[x][y+1] != -1 
+            except IndexError:
+                d = True
+            for var in (a,b,c,d):
+                if var == False:
+                    return False
+            return True
+                
+                
+
+           
+           
+           
         for n in range(self.settings.disabledBlocks):
-            self.field[rndint(0, self.settings.m-1)][rndint(0, self.settings.n-1)] = -1
+            while True:
+                x, y = rndint(0, self.settings.m-1), rndint(0, self.settings.n-1)
+                if noNeighbours(self,x,y):
+                
+                    #--
+                    self.field[x][y] = -1
+                    break
+                
     def reset(self):
         for row in range(self.settings.n):
             for tile in range (self.settings.m):
