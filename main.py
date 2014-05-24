@@ -97,7 +97,6 @@ class GameGrid(GridLayout):
             if self.field.field[i][j] == -1:
                 child.background_color = (1,0,1,1)
     
-
     def button_pressed(self, button):
         x, y = button.coords
 
@@ -138,16 +137,11 @@ class MainLayout(BoxLayout):
 
         self.settings = Settings()
         self.topBar = TopBar(currentPlayer = 1)
-        self.gameGrid = GameGrid(settings = self.settings, labelUpdate = self.topBar.labelUpdate)
+        self.gameGrid = GameGrid(settings = self.settings,
+                                 labelUpdate = self.topBar.labelUpdate)
         
-
         self.add_widget(self.topBar)
         self.add_widget(self.gameGrid)
-
-
-
- 
-
 
 class GridEntry(Button):
     """ A custom button widget """
