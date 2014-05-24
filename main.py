@@ -22,6 +22,9 @@ class MenuPopup(ModalView):
         self.dismiss()
         self.newGameFunction()
 
+    def backToMenu(self):
+        pass
+
     def switchToSettings(self):
         self.ids.s_manager.transition = SlideTransition(direction = "left")
         self.ids.s_manager.current = "settings_screen"
@@ -52,14 +55,27 @@ class CustomPopup(ModalView):
 
 class TopBar(BoxLayout):
 
+    settings = ObjectProperty()
+    newGameFunction = ObjectProperty()
     currentPlayer = NumericProperty()
+    
+    def __init__(self, *args, **kwargs):
+        """ Overloading init """
+
+        super(TopBar, self).__init__(*args, **kwargs)
+
+        self.menuPopup = MenuPopup(newGameFunction = self.newGameFunction, settings = self.settings)
+    
+
 
     def labelUpdate(self, player):
         self.currentPlayer = player
 
 
     def startMenu(self):
-        pass
+        self.menuPopup.open()
+
+        
 
 
 
@@ -151,9 +167,10 @@ class MainLayout(BoxLayout):
         super(MainLayout, self).__init__(*args, **kwargs)
 
         self.settings = Settings()
-        self.topBar = TopBar(currentPlayer = 1)
+        self.topBar = TopBar(currentPlayer = 1, settings = self.settings)
         self.gameGrid = GameGrid(settings = self.settings,
                                  labelUpdate = self.topBar.labelUpdate)
+        self.topBar.newGameFunction = self.gameGrid.newGame
         
         self.add_widget(self.topBar)
         self.add_widget(self.gameGrid)
