@@ -91,7 +91,6 @@ class GameGrid(GridLayout):
         """ Starts a new game """
 
         print("New game")
-
         self.field.reset()
         self.updateButtons()
 
