@@ -1,6 +1,4 @@
-#
-# Imports
-#
+#!/usr/bin/env kivy
 from __future__ import print_function
 
 from classes import QField, Settings

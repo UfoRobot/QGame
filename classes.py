@@ -1,6 +1,3 @@
-#
-# Imports
-#
 from __future__ import print_function
 from RandomDeadBlocks import rand_dead_blocks as rndebl
 
