@@ -31,7 +31,8 @@ class Settings():
         self.playersColorsImg = {
             0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
             1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},
-            2: {"normal": "./img/red.png", "down": "./img/red_down.png"}
+            2: {"normal": "./img/red.png", "down": "./img/red_down.png"},
+           -1: {"normal":  "./img/dead.png", "down": "./img/dead_down.png"}
         }
         # 1: red; 2: green; -1 (blocked): purple
 
