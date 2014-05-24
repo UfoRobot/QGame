@@ -24,6 +24,76 @@
             pos: self.pos
             size: self.size
 
+<MenuPopup>:
+    size_hint_x: 0.7
+    size_hint_y: 0.7
+    auto_dismiss: False
+
+    ScreenManager:
+        id: s_manager
+
+        Screen:
+            id: menu_screen
+            name: 'menu_screen'
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 10
+                    
+                Button:
+                    text: 'New game'
+                    on_release: root.newGame()
+            
+                Button:
+                    text: 'Settings'
+                    on_release: root.switchToSettings()
+
+                Button:
+                    text: 'How to play'
+                    on_release: root.switchToHowtoplay()
+
+                Button:
+                    text: 'Do not press'
+                    on_release: root.doNotPress()
+
+        Screen:
+            id: settings_screen
+            name: 'settings_screen'
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 30
+
+            Label:
+                text: 'SETTINGS HERE'
+
+            BoxLayout:
+                padding: 10
+                Button:
+                    size_hint_y: None
+                    height: 50
+                    text: 'Back'
+                    on_release: root.backToMenu()
+
+        Screen:
+            id: how_screen
+            name: 'how_screen'
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 30
+
+            Label:
+                text: 'HOW TO PLAY\'
+
+            BoxLayout:
+                padding: 10
+                Button:
+                    size_hint_y: None
+                    height: 50
+                    text: 'Back'
+                    on_release: root.backToMenu()
+
 <CustomPopup>:
     size_hint_x: 0.7
     size_hint_y: 0.7
