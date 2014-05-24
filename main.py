@@ -111,19 +111,15 @@ class GameGrid(GridLayout):
                 self.player = 1
         self.labelUpdate()
 
-        #Cross rule here
-        self.crossRule()
+        self.field.cross_rule()
         self.updateButtons()
         mayWin = self.field.checkWin()
-        if mayWin != None:
+        if mayWin is not None:
             self.winner = mayWin
             self.callPopup()
         if self.field.isDraw():
             self.winner = 0
             self.callPopup()
-            
-    def crossRule(self):
-        self.field.cross_rule()
             
     def callPopup(self):
         """ Pops out when game ends.
