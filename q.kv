@@ -53,8 +53,8 @@
                     on_release: root.switchToHowtoplay()
 
                 Button:
-                    text: 'Do not press'
-                    on_release: root.doNotPress()
+                    text: 'Quit'
+                    on_release: root.quit()
 
         Screen:
             id: settings_screen
@@ -77,7 +77,7 @@
 
         Screen:
             id: how_screen
-            name: 'how_screen'
+            name: 'howto_screen'
 
             BoxLayout:
                 orientation: 'vertical'

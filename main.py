@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 from classes import QField, Settings
-
+import sys
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
@@ -31,10 +31,11 @@ class MenuPopup(ModalView):
         self.ids.s_manager.current = "settings_screen"
 
     def switchToHowtoplay(self):
-        pass
+        self.ids.s_manager.transition = SlideTransition(direction = "left")
+        self.ids.s_manager.current = "howto_screen"
 
-    def doNotPress(self):
-        pass
+    def quit(self):
+        sys.exit()
 
 class CustomPopup(ModalView):
     newGameFunction = ObjectProperty()
