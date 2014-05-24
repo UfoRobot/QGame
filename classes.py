@@ -72,7 +72,7 @@ class QField():
         self.field[x][y] = player
 
     def isFree(self, x, y):
-        if self.field[x][y] == 0:
+        if self.field[x][y] is 0:
             return True
         else:
             return False
@@ -80,7 +80,7 @@ class QField():
     def isDraw(self):
         for i in range(self.settings.m):
             for j in range(self.settings.n):
-                if self.field[i][j] == 0:
+                if self.field[i][j] is 0:
                     return False
         return True
 
@@ -95,7 +95,7 @@ class QField():
                 # i, j is the position of the center of the cross
                 if self.field[i][j] > 0:
                     cross = Cross(i, j)
-                    if self.__checkSequence(cross) is not None:
+                    if self.__checkSequence(cross, 5) is not None:
                         self.field[i][j] = -1
 
     def __checkSequence(self, sequence, lgt=None):
@@ -111,7 +111,7 @@ class QField():
             else:
                 mayWin = x
                 count = 1
-            if count == lgt and mayWin != 0:
+            if count == lgt and mayWin is not 0:
                 return mayWin
         return None
 
@@ -158,12 +158,9 @@ class QField():
         if field is None:
             field = self.field
         rowWinner = self.__checkRows()
-        if rowWinner is not None:
-            return rowWinner
         columnWinner = self.__checkColumns()
-        if columnWinner is not None:
-            return columnWinner
         blockWinner = self.__checkBlocks()
-        if blockWinner is not None:
-            return blockWinner
-        return None
+        for x in (blockWinner, rowWinner, columnWinner):
+            if x is not None:
+                return x 
+
