@@ -88,10 +88,9 @@ class QField():
         Cross = lambda x, y: [self.field[x+i][y+j]
                               for i, j in zip([0, 0, 0, -1, 1],
                                               [0, 1, -1, 0, 0])]
-        def Xoss(x,y,to_check):
+        def free(to_check):
             while to_check:
                 to_check.pop()
-            to_check.append([Cross(x,y)])
         # List to be checked by __checkSequence
         
         for i in range(1 ,self.settings.m-1):
@@ -101,7 +100,7 @@ class QField():
                     cross = Cross(i,j)
                     if self.__checkSequence(cross, 5) is not None:
                         self.field[i][j] = -1
-                    Xoss(i,j,cross)
+                    free(cross)
 
     def __checkSequence(self, sequence, lgt=None):
         """ Given a sequence returns the element that occurs 4 times
