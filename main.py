@@ -14,6 +14,24 @@ from kivy.properties import ListProperty, StringProperty, NumericProperty, Objec
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.event import EventDispatcher
 
+class MenuPopup(ModalView):
+    newGameFunction = ObjectProperty()
+    settings = ObjectProperty()
+
+    def newGame(self):
+        self.dismiss()
+        self.newGameFunction()
+
+    def switchToSettings(self):
+        self.ids.s_manager.transition = SlideTransition(direction = "left")
+        self.ids.s_manager.current = "settings_screen"
+
+    def switchToHowtoplay(self):
+        pass
+
+    def doNotPress(self):
+        pass
+
 class CustomPopup(ModalView):
     newGameFunction = ObjectProperty()
     winner = NumericProperty()
