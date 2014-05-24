@@ -162,5 +162,6 @@ class QField():
         blockWinner = self.__checkBlocks()
         for x in (blockWinner, rowWinner, columnWinner):
             if x is not None:
-                return x 
+                return x
+        return None
 
