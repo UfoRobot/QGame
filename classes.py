@@ -59,7 +59,7 @@ class QField():
             self.addRandomBlocks()
 
     def addRandomBlocks(self):
-        rndebl(self, self.settings.disabledBlocks, -0.9, 2)
+        rndebl(self, self.settings.disabledBlocks, -1, 2)
 
     def reset(self):
         for row in range(self.settings.n):
@@ -86,23 +86,17 @@ class QField():
 
     def cross_rule(self):
         """ Apply cross rule: a cross get's muted """
-
+        Cross = lambda x, y: [self.field[x+i][y+j]
+                              for i, j in zip([0, 0, 0, -1, 1],
+                                              [0, 1, -1, 0, 0])]
+        # List to be checked by __checkSequence
         for i in range(1, self.settings.m-1):
             for j in range(1, self.settings.n-1):
                 # i, j is the position of the center of the cross
                 if self.field[i][j] > 0:
-                    cross = []                              # List to be checked by __checkSequence
-                    cross.append(self.field[i][j])
-                    cross.append(self.field[i-1][j])
-                    cross.append(self.field[i+1][j])
-                    cross.append(self.field[i][j+1])
-                    cross.append(self.field[i][j-1])
+                    cross = Cross(i, j)
                     if self.__checkSequence(cross) is not None:
                         self.field[i][j] = -1
-                        # self.field[i+1][j] = -1
-                        # self.field[i-1][j] = -1
-                        # self.field[i][j+1] = -1
-                        # self.field[i][j-1] = -1
 
     def __checkSequence(self, sequence, lgt=None):
         """ Given a sequence returns the element that occurs 4 times
