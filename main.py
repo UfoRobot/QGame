@@ -56,14 +56,14 @@ class CustomPopup(ModalView):
 class TopBar(BoxLayout):
 
     settings = ObjectProperty()
-    newGameFunction = ObjectProperty()
+    
     currentPlayer = NumericProperty()
     
     def __init__(self, *args, **kwargs):
         """ Overloading init """
 
         super(TopBar, self).__init__(*args, **kwargs)
-
+        self.newGameFunction = None
         self.menuPopup = MenuPopup(newGameFunction = self.newGameFunction, settings = self.settings)
     
 
@@ -168,8 +168,7 @@ class MainLayout(BoxLayout):
         self.topBar = TopBar(currentPlayer = 1, settings = self.settings)
         self.gameGrid = GameGrid(settings = self.settings,
                                  labelUpdate = self.topBar.labelUpdate)
-        self.topBar.newGameFunction = self.gameGrid.newGame
-        
+        self.topBar.menuPopup.newGameFunction =  self.gameGrid.newGame
         self.add_widget(self.topBar)
         self.add_widget(self.gameGrid)
 
