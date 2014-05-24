@@ -88,12 +88,16 @@ class QField():
         Cross = lambda x, y: [self.field[x+i][y+j]
                               for i, j in zip([0, 0, 0, -1, 1],
                                               [0, 1, -1, 0, 0])]
+        def Xoss(x,y,to_check=cross):
+            for el in to_check:
+                to_check.remove()
+            to_check.append([Cross(x,y)]
         # List to be checked by __checkSequence
         for i in range(1, self.settings.m-1):
             for j in range(1, self.settings.n-1):
                 # i, j is the position of the center of the cross
                 if self.field[i][j] > 0:
-                    cross = Cross(i, j)
+                    Xoss(x,y,cross)
                     if self.__checkSequence(cross, 5) is not None:
                         self.field[i][j] = -1
 
