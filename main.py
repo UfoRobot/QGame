@@ -36,11 +36,8 @@ class TopBar(BoxLayout):
 
     currentPlayer = NumericProperty()
 
-    def labelUpdate(self):
-        if self.currentPlayer == 1:
-            self.currentPlayer = 2
-        else:
-            self.currentPlayer = 1
+    def labelUpdate(self, player):
+        self.currentPlayer = player
 
 
     def startMenu(self):
@@ -108,7 +105,7 @@ class GameGrid(GridLayout):
                 self.player = 2
             else:
                 self.player = 1
-        self.labelUpdate()
+        self.labelUpdate(self.player)
 
         self.field.cross_rule()
         self.updateButtons()
