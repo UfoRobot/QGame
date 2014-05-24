@@ -27,7 +27,8 @@ class Settings():
         self.lineLgt = 5
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
-        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1)}
+        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1), 0 : (1,1,1,1),
+                              -1 : (1,0,1,1)}
         self.playersColorsImg = {
             0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
             1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},

@@ -88,11 +88,10 @@ class GameGrid(GridLayout):
             try:
                 i, j = child.coords
             except AttributeError:
-                continue
-            if self.field.field[i][j] == 0:
-                child.background_color = (1,1,1,1)
-            if self.field.field[i][j] == -1:
-                child.background_color = (1,0,1,1)
+                continue    
+            child.background_color = self.settings.playersColors[self.field.field[i][j]]
+            
+            
     
     def button_pressed(self, button):
         x, y = button.coords
