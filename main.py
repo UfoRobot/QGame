@@ -65,8 +65,8 @@ class TopBar(BoxLayout):
         """ Overloading init """
 
         super(TopBar, self).__init__(*args, **kwargs)
-        self.newGameFunction = None
-        self.menuPopup = MenuPopup(newGameFunction = self.newGameFunction, settings = self.settings)
+        
+        self.menuPopup = MenuPopup(settings = self.settings)
     
 
 
