@@ -139,18 +139,14 @@ class QField():
 
     def __checkBlocks(self):
         """ Checks for a winning block """
-
-        block = []
+        fBlock = lambda x, y: [self.field[x+i][y+j]
+                              for i, j in zip([0, 0, 1, 1],
+                                              [0, 1, 0, 1])]
         for i in range(self.settings.m-1):
             for j in range(self.settings.n-1):
-                block.append(self.field[i][j])
-                block.append(self.field[i][j+1])
-                block.append(self.field[i+1][j])
-                block.append(self.field[i+1][j+1])
-                mayWin = self.__checkSequence(block, 4)
+                mayWin = self.__checkSequence(fBlock(i,j), 4)
                 if mayWin is not None:
                     return mayWin
-                block = []
         return None
 
     def checkWin(self, field=None):
