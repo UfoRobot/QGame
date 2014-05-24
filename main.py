@@ -23,7 +23,8 @@ class MenuPopup(ModalView):
         self.newGameFunction()
 
     def backToMenu(self):
-        pass
+        self.ids.s_manager.transition = SlideTransition(direction = "right")
+        self.ids.s_manager.current = "menu_screen"
 
     def switchToSettings(self):
         self.ids.s_manager.transition = SlideTransition(direction = "left")
