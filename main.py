@@ -58,7 +58,6 @@ class EndPopup(ModalView):
 class TopBar(BoxLayout):
 
     settings = ObjectProperty()
-    
     currentPlayer = NumericProperty()
     
     def __init__(self, *args, **kwargs):
@@ -68,12 +67,6 @@ class TopBar(BoxLayout):
         
         self.menuPopup = MenuPopup(settings = self.settings)
     
-
-
-    def labelUpdate(self, player):
-        self.currentPlayer = player
-
-
     def startMenu(self):
         self.menuPopup.open()
 
@@ -83,9 +76,9 @@ class TopBar(BoxLayout):
 
 class GameGrid(GridLayout):
     """ The main grid, where everything takes place... """
-    
-    labelUpdate = ObjectProperty()
 
+    player = NumericProperty()
+    
     def __init__(self, *args, **kwargs):
         """ Overloading init """
 
@@ -139,7 +132,6 @@ class GameGrid(GridLayout):
                 self.player = 2
             else:
                 self.player = 1
-        self.labelUpdate(self.player)
 
         self.field.cross_rule()
         self.updateButtons()
@@ -161,19 +153,10 @@ class GameGrid(GridLayout):
 
 class MainLayout(BoxLayout):
 
-    def __init__(self, *args, **kwargs):
-        """ Overloading init """
+    settings = ObjectProperty(Settings())
 
-        super(MainLayout, self).__init__(*args, **kwargs)
 
-        self.settings = Settings()
-        self.topBar = TopBar(currentPlayer = 1, settings = self.settings)
-        self.gameGrid = GameGrid(settings = self.settings,
-                                 labelUpdate = self.topBar.labelUpdate)
-        self.topBar.menuPopup.newGameFunction =  self.gameGrid.newGame
-        self.add_widget(self.topBar)
-        self.add_widget(self.gameGrid)
-
+        
 class GridEntry(Button):
     """ A custom button widget """
     

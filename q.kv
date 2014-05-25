@@ -39,7 +39,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 padding: 10
-                    
+                spacing: 3                    
                 Button:
                     text: 'New game'
                     on_release: root.newGame()
@@ -117,6 +117,8 @@
             text: 'Player {} won!'.format(root.winner)
 
         Button:
+            size_hint_y: None
+            height: 100
             text: 'New Game'
             on_release: root.newGame()
 
@@ -125,22 +127,8 @@
     background_normal: './img/base.png'
     background_down: './img/base_down.png'
 
-<customLabel>:
-    canvas.before:
-        Color:
-            rgba: 0.81, 0.51, 0, 1 #Color
-        Rectangle:
-            pos: self.pos
-            size: (250, self.size[1])
-<TopBarTEMP>
-    canvas.before:
-        Color:
-            rgba: 0.81, 0.51, 0, 1 #Color
-        Rectangle:
-            pos: self.pos
-            size: (250, self.size[1])
-
 <MainLayout>:
+    id: main_layout
     orientation: 'vertical'
     padding: 5
     spacing: 5
@@ -151,4 +139,13 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
+    TopBar:
+        settings: main_layout.settings
+        currentPlayer: game_grid.player
+        newGameFunction: game_grid.newGame
+
+    GameGrid:
+        id: game_grid
+        settings: main_layout.settings
 
