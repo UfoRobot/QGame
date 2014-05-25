@@ -1,4 +1,5 @@
 #!/usr/bin/env kivy
+
 from __future__ import print_function
 
 from classes import QField, Settings
@@ -40,7 +41,7 @@ class MenuPopup(ModalView):
     def quitGame(self):
         sys.exit()
 
-class CustomPopup(ModalView):
+class EndPopup(ModalView):
     newGameFunction = ObjectProperty()
     winner = NumericProperty()
 
@@ -48,10 +49,6 @@ class CustomPopup(ModalView):
         print("NEW GAME")
         self.dismiss()
         self.newGameFunction()
-
-    def switchToSettings(self):
-        self.ids.s_manager.transition = SlideTransition(direction = "left")
-        self.ids.s_manager.current = "settings_screen"
 
     def close(self):
         self.dismiss()
@@ -159,7 +156,7 @@ class GameGrid(GridLayout):
         Shows result and allows to start a new game or modify settings """
 
         print("Result Popup")   # For debugging
-        self.popup = CustomPopup(newGameFunction=self.newGame, winner = self.winner)
+        self.popup = EndPopup(newGameFunction=self.newGame, winner = self.winner)
         self.popup.open()
 
 class MainLayout(BoxLayout):
