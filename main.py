@@ -34,7 +34,10 @@ class MenuPopup(ModalView):
         self.ids.s_manager.transition = SlideTransition(direction = "left")
         self.ids.s_manager.current = "howto_screen"
 
-    def quit(self):
+    def close(self):
+        self.dismiss()
+        
+    def quitGame(self):
         sys.exit()
 
 class CustomPopup(ModalView):

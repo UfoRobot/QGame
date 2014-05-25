@@ -51,10 +51,14 @@
                 Button:
                     text: 'How to play'
                     on_release: root.switchToHowtoplay()
-
+                
+                Button:
+                    text: 'Close popup'
+                    on_release: root.close()
+                
                 Button:
                     text: 'Quit'
-                    on_release: root.quit()
+                    on_release: root.quitGame()
 
         Screen:
             id: settings_screen
