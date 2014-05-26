@@ -1,7 +1,5 @@
 #!/usr/bin/env kivy
 
-from __future__ import print_function
-
 from classes import QField, Settings
 import sys
 from kivy.app import App
@@ -46,7 +44,6 @@ class EndPopup(ModalView):
     winner = NumericProperty()
 
     def newGame(self):
-        print("NEW GAME")
         self.dismiss()
         self.newGameFunction()
 
@@ -102,14 +99,12 @@ class GameGrid(GridLayout):
        
     def newGame(self, *args):
         """ Starts a new game """
-
-        print("New game")
         self.field.reset()
         self.updateButtons()
 
 
     def setSettings(self, *args):
-        print("SETTINGS CALLED")
+        pass
 
     def updateButtons(self):
         """ Updates buttons background based on field table """
@@ -149,7 +144,6 @@ class GameGrid(GridLayout):
         """ Pops out when game ends.
         Shows result and allows to start a new game or modify settings """
 
-        print("Result Popup")   # For debugging
         self.popup = EndPopup(newGameFunction=self.newGame, winner = self.winner)
         self.popup.open()
 
