@@ -14,6 +14,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.event import EventDispatcher
 
 class MenuPopup(ModalView):
+    
     newGameFunction = ObjectProperty()
     settings = ObjectProperty()
 
@@ -40,6 +41,7 @@ class MenuPopup(ModalView):
         sys.exit()
 
 class EndPopup(ModalView):
+    
     newGameFunction = ObjectProperty()
     winner = NumericProperty()
 
@@ -146,10 +148,8 @@ class GameGrid(GridLayout):
         self.popup.open()
 
 class MainLayout(BoxLayout):
-
+    
     settings = ObjectProperty(Settings())
-
-
         
 class GridEntry(Button):
     """ A custom button widget """
@@ -157,6 +157,7 @@ class GridEntry(Button):
     coords = ListProperty([0, 0])
 
 class QApp(App):
+    
     def build(self):
         return MainLayout()
 
