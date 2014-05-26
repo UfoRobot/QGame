@@ -142,7 +142,7 @@ class GameGrid(GridLayout):
             
     def callPopup(self):
         """ Pops out when game ends.
-        Shows result and allows to start a new game or modify settings """
+        Shows result and allows to start a new game"""
 
         self.popup = EndPopup(newGameFunction=self.newGame, winner = self.winner)
         self.popup.open()
