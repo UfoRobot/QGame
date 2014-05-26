@@ -19,27 +19,27 @@ class Settings():
     #
 
     def __init__(self):
-        # Sets default settings values
-        self.m = 10
-        self.n = 10
-        self.disabledBlocks = int(0.1 * (self.m*self.n)) + int(0.3*((self.m*self.n)/10))
-        self.coeff_disabledBlocks = -0.7
-        self.fade_disabledBlocks = True
-        self.range_disabledBlocks = 2
-        self.randomEnable = True
-        self.lineLgt = 5
+        # Game settings 
+        self.m = 10 # Lines
+        self.n = 10 # Columns
+        self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
         self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1), 0: (1, 1, 1, 1),
                               -1: (1, 0, 1, 1)}
+        # --> 1: red; 2: green; -1 (blocked): purple
         self.playersColorsImg = {
             0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
             1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},
             2: {"normal": "./img/red.png", "down": "./img/red_down.png"},
             -1: {"normal":  "./img/dead.png", "down": "./img/dead_down.png"}
         }
-        # 1: red; 2: green; -1 (blocked): purple
-
+        # Settings about random dead blocks: 
+        self.disabledBlocks = int(0.1 * (self.m*self.n)) + int(0.3*((self.m*self.n)/10))
+        self.coeff_disabledBlocks = -0.99 # Chance of 2 neighbor blocks
+        self.fade_disabledBlocks = True 
+        self.range_disabledBlocks = 2
+        self.randomEnable = True
 
 class QField():
     """ A field for the Q-Game and all methods needed to play """
