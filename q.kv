@@ -114,7 +114,7 @@
             text: "END OF GAME"
 
         Label:
-            text: 'Player {} won!'.format(root.winner)
+            text: '{}'.format('Player {} won'.format(root.winner) if root.winner is not 0 else "It's a draw!")
 
         Button:
             size_hint_y: None
