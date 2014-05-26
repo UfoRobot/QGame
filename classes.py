@@ -16,7 +16,8 @@ class Settings():
         self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
-        self.playersColorName = {1 : 'Red', 2: 'Blue'}
+        self.playersColorName = {1 : 'Red', 2: 'Blue'} # Will (shall) be used in
+                                                       # kv file for proper output
         self.playersColors = {
             1: (1, 0, 0, 1), # RGBA: Red
             2: (0, 0, 1, 1), # RGBA: Blue
