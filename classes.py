@@ -10,14 +10,6 @@ class Settings():
     """ A settings class. It stores number of players and their custom symbols.
         Default is 2 players: X and O """
 
-    #
-    # Class members
-    #
-
-    #
-    # Class methods
-    #
-
     def __init__(self):
         # Game settings 
         self.m = 10 # Lines
@@ -25,9 +17,11 @@ class Settings():
         self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
-        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1), 0: (1, 1, 1, 1),
-                              -1: (1, 0, 1, 1)}
-        # --> 1: red; 2: green; -1 (blocked): purple
+        self.playersColors = {
+            1: (1, 0, 0, 1), # RGBA: Red
+            2: (0, 0, 1, 1), # RGBA: Green
+            0: (1, 1, 1, 1), # RGBA: ()
+            -1: (1, 0, 1, 1)}# RGBA: Purple (Dead Block)
         self.playersColorsImg = {
             0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
             1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},
@@ -43,14 +37,6 @@ class Settings():
 
 class QField():
     """ A field for the Q-Game and all methods needed to play """
-
-    #
-    # Class members
-    #
-
-    #
-    # Class methods
-    #
 
     def __init__(self, settings=Settings):
         """ Initialzize an empty field. Custom size can be passed as argument
