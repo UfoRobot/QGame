@@ -63,7 +63,6 @@ class TopBar(BoxLayout):
         """ Overloading init """
 
         super(TopBar, self).__init__(*args, **kwargs)
-        
         self.menuPopup = MenuPopup(settings = self.settings)
         #self.menuPopup.newGameFunction=self.newGameFunction
     
@@ -124,7 +123,6 @@ class GameGrid(GridLayout):
         x, y = button.coords
 
         if self.field.move(self.player, x, y):
-            button.background_color = self.settings.playersColors[self.player]
             if self.player == 1:
                 self.player = 2
             else:

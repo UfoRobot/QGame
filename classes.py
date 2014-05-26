@@ -16,9 +16,10 @@ class Settings():
         self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
+        self.playersColorName = {1 : 'Red', 2: 'Blue'}
         self.playersColors = {
             1: (1, 0, 0, 1), # RGBA: Red
-            2: (0, 0, 1, 1), # RGBA: Green
+            2: (0, 0, 1, 1), # RGBA: Blue
             0: (1, 1, 1, 1), # RGBA: ()
             -1: (1, 0, 1, 1)}# RGBA: Purple (Dead Block)
         self.playersColorsImg = {
@@ -42,8 +43,10 @@ class QField():
         """
         self.settings = settings()
         self.field = [[0 for x in range(self.settings.m)] for y in range(self.settings.n)] 
-        if self.settings.randomEnable is True:
-            self.addRandomBlocks()
+        if self.settings.randomEnable is False:
+            self.firstMove = False
+        else:
+            self.firstMove = True
 
     def addRandomBlocks(self):
         # This function adds random "dead" blocks to prevent some easy tricks,
@@ -56,11 +59,15 @@ class QField():
             for tile in range(self.settings.m):
                 self.field[row][tile] = 0
         if self.settings.randomEnable is True:
-            self.addRandomBlocks()
+            self.firstMove = True
 
     def move(self, player, x, y):
         if self.isFree(x,y):
             self.field[x][y] = player
+            if self.firstMove:
+                self.addRandomBlocks()
+                self.firstMove = False
+            
             return True
         else:
             return False
