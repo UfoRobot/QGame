@@ -75,13 +75,15 @@ def defineBorders(lista, border, m, n):
 def printList(lista):
     for i in range(len(lista)):
         print lista[i]
-
+    print '-------'
 
 
 if __name__ == '__main__':
-    lista = [[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,1,1,0],[0,0,0,0,0,0,0,0,0,0]]
+    lista = [[0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,1,0],
+             [0,0,0,0,0,0,0,1,1,0],
+             [0,0,0,0,0,0,0,0,0,0]]
 
-           
     printList(lista)
     result = defineBorders(lista, 2, 4, 10)
     printList(result)
