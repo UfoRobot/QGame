@@ -59,15 +59,17 @@ class TopBar(BoxLayout):
 
     settings = ObjectProperty()
     currentPlayer = NumericProperty()
-    
+    newGameFunction = ObjectProperty()
     def __init__(self, *args, **kwargs):
         """ Overloading init """
 
         super(TopBar, self).__init__(*args, **kwargs)
         
         self.menuPopup = MenuPopup(settings = self.settings)
+        #self.menuPopup.newGameFunction=self.newGameFunction
     
     def startMenu(self):
+        self.menuPopup.newGameFunction = self.newGameFunction
         self.menuPopup.open()
 
         
