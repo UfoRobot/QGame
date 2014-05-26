@@ -23,17 +23,20 @@ class Settings():
         self.m = 10
         self.n = 10
         self.disabledBlocks = int(0.1 * (self.m*self.n)) + int(0.3*((self.m*self.n)/10))
+        self.coeff_disabledBlocks = -0.7
+        self.fade_disabledBlocks = True
+        self.range_disabledBlocks = 2
         self.randomEnable = True
         self.lineLgt = 5
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
-        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1), 0 : (1,1,1,1),
-                              -1 : (1,0,1,1) }
+        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1), 0: (1, 1, 1, 1),
+                              -1: (1, 0, 1, 1)}
         self.playersColorsImg = {
             0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
             1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},
             2: {"normal": "./img/red.png", "down": "./img/red_down.png"},
-           -1: {"normal":  "./img/dead.png", "down": "./img/dead_down.png"}
+            -1: {"normal":  "./img/dead.png", "down": "./img/dead_down.png"}
         }
         # 1: red; 2: green; -1 (blocked): purple
 
@@ -58,7 +61,7 @@ class QField():
             self.addRandomBlocks()
 
     def addRandomBlocks(self):
-        rndebl(self, self.settings.disabledBlocks, -1, 2)
+        rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks, self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
 
     def reset(self):
         for row in range(self.settings.n):
@@ -88,16 +91,17 @@ class QField():
         Cross = lambda x, y: [self.field[x+i][y+j]
                               for i, j in zip([0, 0, 0, -1, 1],
                                               [0, 1, -1, 0, 0])]
+
         def free(to_check):
             while to_check:
                 to_check.pop()
         # List to be checked by __checkSequence
-        
-        for i in range(1 ,self.settings.m-1):
+
+        for i in range(1, self.settings.m-1):
             for j in range(1, self.settings.n-1):
                 # i, j is the position of the center of the cross
                 if self.field[i][j] > 0:
-                    cross = Cross(i,j)
+                    cross = Cross(i, j)
                     if self.__checkSequence(cross, 5) is not None:
                         self.field[i][j] = -1
                     free(cross)
@@ -147,11 +151,11 @@ class QField():
             while to_check:
                 to_check.pop()
         fBlock = lambda x, y: [self.field[x+i][y+j]
-                              for i, j in zip([0, 0, 1, 1],
-                                              [0, 1, 0, 1])]
+                               for i, j in zip([0, 0, 1, 1],
+                                               [0, 1, 0, 1])]
         for i in range(self.settings.m-1):
             for j in range(self.settings.n-1):
-                block = fBlock(i,j)
+                block = fBlock(i, j)
                 mayWin = self.__checkSequence(block, 4)
                 free(block)
                 if mayWin is not None:
@@ -169,4 +173,3 @@ class QField():
             if x is not None:
                 return x
         return None
-
