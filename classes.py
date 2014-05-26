@@ -38,7 +38,7 @@ class QField():
     """ A field for the Q-Game and all methods needed to play """
 
     def __init__(self, settings=Settings):
-        """ Initialzize an empty field. Custom size can be passed as argument
+        """ Initialzize an empty field. Size is based on settings(.m and .n)
         """
         self.settings = settings()
         self.field = [[0 for x in range(self.settings.m)] for y in range(self.settings.n)] 
@@ -46,7 +46,10 @@ class QField():
             self.addRandomBlocks()
 
     def addRandomBlocks(self):
-        rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks, self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
+        # This function adds random "dead" blocks to prevent some easy tricks,
+        #   thus improving gameplay
+        rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks,
+               self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
 
     def reset(self):
         for row in range(self.settings.n):
@@ -56,7 +59,11 @@ class QField():
             self.addRandomBlocks()
 
     def move(self, player, x, y):
-        self.field[x][y] = player
+        if self.isFree(x,y):
+            self.field[x][y] = player
+            return True
+        else:
+            return False
 
     def isFree(self, x, y):
         if self.field[x][y] is 0:

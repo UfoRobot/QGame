@@ -121,10 +121,8 @@ class GameGrid(GridLayout):
     def button_pressed(self, button):
         x, y = button.coords
 
-        if self.field.isFree(x, y):
-            self.field.move(self.player, x, y)
+        if self.field.move(self.player, x, y):
             button.background_color = self.settings.playersColors[self.player]
-
             if self.player == 1:
                 self.player = 2
             else:
