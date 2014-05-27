@@ -71,10 +71,6 @@ class TopBar(BoxLayout):
         self.menuPopup.newGameFunction = self.newGameFunction
         self.menuPopup.open()
 
-        
-
-
-
 class GameGrid(GridLayout):
     """ The main grid, where everything takes place... """
 
