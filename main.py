@@ -67,9 +67,9 @@ class TopBar(BoxLayout):
         #self.menuPopup.newGameFunction=self.newGameFunction
     
     def startMenu(self):
-        #self.newGameFunction() # enable for easy testing of newly generated games (disable following lines:)
-        self.menuPopup.newGameFunction = self.newGameFunction
-        self.menuPopup.open()
+        self.newGameFunction() # enable for easy testing of newly generated games (disable following lines:)
+        #self.menuPopup.newGameFunction = self.newGameFunction
+        #self.menuPopup.open()
 
         
 

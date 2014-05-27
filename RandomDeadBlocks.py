@@ -6,7 +6,7 @@ import random
 def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_modify=2, fade=True):
     maxM = self.settings.m-1
     maxN = self.settings.n-1
-    maxIteration = 500000
+    maxIteration = 900000
     # print(maxM, maxN)
     randGen = lambda maxi, mini = 0: random.randint(mini, maxi)
     print "\n-- New Randomblocks generation|"
@@ -41,7 +41,7 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
         for x in range(square_to_modify+1, 1, -1):
             mod_matrix(self, coeff/float(square_to_modify if fade else 1), X+x, Y+x, X-x+1, Y-x+1)
     def rescue(self):
-        i = 1
+        i = 0
         x,y = (randGen(self.settings.m-1), randGen(self.settings.n-1))
         while True:
             if self.field[x][y] == 0:
@@ -54,7 +54,6 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
                 break
             else: i+=1
                 
-        
     self.values_per_square = {}
     mod_matrix(self)
     usable_coords = self.values_per_square.keys()
