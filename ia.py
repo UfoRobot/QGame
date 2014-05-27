@@ -1,10 +1,11 @@
 def defineBorders(lista, border, m, n):
+    # First part of the algorithm: kill cells further than <border>
     hold = 0
     for i in range(m):
         for j in range(n-border):
             if lista[i][j] == 1:
                 hold = border
-            elif lista[i][j+border] == 1:
+            elif lista[i][j+border] == 1 or lista[i+border][j] == 1:
                 hold = border
             elif hold > 0:
                 hold -= 1
@@ -19,8 +20,7 @@ def defineBorders(lista, border, m, n):
             else:
                 lista[i][j] = -1
 
-    # Eliminate unusefuls lines.. not if in the middle but only on borders!
-    # Theese don't really seem to be efficient... but
+    # Second part of the algorithm: clean dead rows and columns 
     linesToRemove = []
     rowsToRemove = []
     # Top-down
