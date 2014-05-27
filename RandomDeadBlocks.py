@@ -23,7 +23,7 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
                 usable_coords.remove((x, y))
                 mod_surround(self, usable_coords, y, x, coeff, square_to_modify, Fade)
                 self.values_per_square[(x, y)] = 0
-                return
+                break
             if i == maxIteration:
                 print "Exception raised; last x, y = {}\n".format((x, y))
                 raise Exception
@@ -82,3 +82,4 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
     #         i+=1
     # for el in self.field:
     #     print(el)
+
