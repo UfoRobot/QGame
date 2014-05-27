@@ -6,12 +6,12 @@ import random
 def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_modify=2, fade=True):
     maxM = self.settings.m-1
     maxN = self.settings.n-1
-    maxIteration = 50000
+    maxIteration = 500000
     # print(maxM, maxN)
     randGen = lambda maxi, mini = 0: random.randint(mini, maxi)
     print "\n-- New Randomblocks generation|"
     def choose_square(self, coeff, square_to_modify, usable_coords, Fade=fade):
-        # i = 0
+        i = 0
         while True:
             # x = randGen(maxM)
             # y = randGen(maxN)
