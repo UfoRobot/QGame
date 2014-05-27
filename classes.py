@@ -36,7 +36,7 @@ class Settings():
         }
         # Settings about random dead blocks: 
         self.disabledBlocks = int(0.1 * (self.m*self.n)) + int(0.3*((self.m*self.n)/10))
-        self.coeff_disabledBlocks = -0.99 # Chance of 2 neighbor blocks
+        self.coeff_disabledBlocks = -1 # Chance of 2 neighbor blocks
         self.fade_disabledBlocks = True 
         self.range_disabledBlocks = 2
         self.randomEnable = True

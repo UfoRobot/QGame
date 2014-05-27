@@ -9,16 +9,23 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
     # print(maxM, maxN)
     randGen = lambda maxi, mini = 0: random.randint(mini, maxi)
 
-    def choose_square(self, coeff, square_to_modify, Fade=fade):
+    def choose_square(self, coeff, square_to_modify, usable_coords, Fade=fade):
+        # i = 0
         while True:
-            x = randGen(maxM)
-            y = randGen(maxN)
+            # x = randGen(maxM)
+            # y = randGen(maxN)
+            x, y = random.choice(usable_coords)
             if self.field[y][x] == 0 and self.values_per_square[(x, y)] > randGen(100)/100.0:
                 # print("({},{}) {}".format(x+1, y+1, self.values_per_square[(x, y)]))
-                self.field[x][y] = -1
+                self.field[y][x] = -1
+                usable_coords.remove((x, y))
                 mod_surround(self, y, x, coeff, square_to_modify, Fade)
                 self.values_per_square[(x, y)] = 0
                 return
+        # if i == 50:
+            # raise Exception
+        # else:
+            # i += 1
 
     def mod_matrix(self, value_to_set=1, maxm=maxM+1, maxn=maxN+1, minM=0, minN=0):
         for x in range(0 if minN < 0 else minN, maxN+1 if maxn > maxN+1 else maxn):
@@ -34,9 +41,16 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
 
     self.values_per_square = {}
     mod_matrix(self)
+    usable_coords = [keys for keys in self.values_per_square.iterkeys()]
 
     for square in range(0, num_dead_blocks):
-        choose_square(self, coeff_surround, square_to_modify)
+        # try:
+        choose_square(self, coeff_surround, square_to_modify, usable_coords)
+        # except Exception:
+        # stall_rescue(self, num_dead_blocks-square)
+        # break
+        # stall_rescue(self, num_dead_blocks-square)
+
     #     field=[self.values_per_square[x] for x in sorted(self.values_per_square.iterkeys())]
     #     i=1
     #     for el in field:
