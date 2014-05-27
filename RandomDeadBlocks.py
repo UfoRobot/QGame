@@ -41,7 +41,7 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
 
     self.values_per_square = {}
     mod_matrix(self)
-    usable_coords = [keys for keys in self.values_per_square.iterkeys()]
+    usable_coords = self.values_per_square.keys()
 
     for square in range(0, num_dead_blocks):
         # try:
