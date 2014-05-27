@@ -16,7 +16,7 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
         while True:
             # x = randGen(maxM)
             # y = randGen(maxN)
-            x, y = random.choice(usable_coords)
+            x, y = random.choice(usable_coords) # Sometimes raises IndexError
             if self.field[y][x] == 0 and self.values_per_square[(x, y)] > randGen(100)/100.0:
                 # print("({},{}) {}".format(x+1, y+1, self.values_per_square[(x, y)]))
                 self.field[y][x] = -1
