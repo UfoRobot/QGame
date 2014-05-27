@@ -21,7 +21,7 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
                 # print("({},{}) {}".format(x+1, y+1, self.values_per_square[(x, y)]))
                 self.field[y][x] = -1
                 usable_coords.remove((x, y))
-                mod_surround(self, y, x, coeff, square_to_modify, Fade, usable_coords)
+                mod_surround(self, usable_coords, y, x, coeff, square_to_modify, Fade)
                 self.values_per_square[(x, y)] = 0
                 return
             if i == maxIteration:
@@ -37,15 +37,17 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
                     self.values_per_square[(x, y)] = value_to_set
                 else:
                     self.values_per_square[(x, y)] += value_to_set
-                    if self.values_per_square[(x,y)] <= 0:
-                        Usable_coords.remove((x,y))
+                    if self.values_per_square[(x, y)] <= 0:
+                        try:
+                            Usable_coords.remove((x, y))
+                        except ValueError:
+                            pass
 
     def mod_surround(self, Usable_coords, X, Y, coeff, square_to_modify, fade):
         for x in range(square_to_modify+1, 1, -1):
             mod_matrix(self, Usable_coords, coeff/float(square_to_modify if fade else 1), X+x, Y+x, X-x+1, Y-x+1)
 
     def rescue(self):
-        pass
         i = 0
         x, y = (randGen(self.settings.m-1), randGen(self.settings.n-1))
         while True:

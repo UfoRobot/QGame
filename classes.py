@@ -53,7 +53,7 @@ class QField():
         # This function adds random "dead" blocks to prevent some easy tricks,
         #   thus improving gameplay
         rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks,
-               self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
+               self.settings.range_disabledBlocks, self.settings.fade_disabledBlocks)
 
     def reset(self):
         for row in range(self.settings.n):
