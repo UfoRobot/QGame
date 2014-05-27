@@ -1,4 +1,3 @@
-from __future__ import print_function
 from RandomDeadBlocks import rand_dead_blocks as rndebl
 
 #
@@ -10,65 +9,69 @@ class Settings():
     """ A settings class. It stores number of players and their custom symbols.
         Default is 2 players: X and O """
 
-    #
-    # Class members
-    #
-
-    #
-    # Class methods
-    #
-
     def __init__(self):
-        # Sets default settings values
-        self.m = 10
-        self.n = 10
-        self.disabledBlocks = int(0.1 * (self.m*self.n)) + int(0.3*((self.m*self.n)/10))
-        self.randomEnable = True
-        self.lineLgt = 5
+        # Game settings 
+        self.m = 10 # Lines
+        self.n = 10 # Columns
+        self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
-        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1), 0 : (1,1,1,1),
-                              -1 : (1,0,1,1) }
+        self.playersColorName = {1 : 'Red', 2: 'Blue'} # Will (shall) be used in
+                                                       # kv file for proper output
+        self.playersColors = {
+            1: (1, 0, 0, 1), # RGBA: Red
+            2: (0, 0, 1, 1), # RGBA: Blue
+            0: (1, 1, 1, 1), # RGBA: ()
+            -1: (1, 0, 1, 1)}# RGBA: Purple (Dead Block)
         self.playersColorsImg = {
             0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
             1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},
             2: {"normal": "./img/red.png", "down": "./img/red_down.png"},
-           -1: {"normal":  "./img/dead.png", "down": "./img/dead_down.png"}
+            -1: {"normal":  "./img/dead.png", "down": "./img/dead_down.png"}
         }
-        # 1: red; 2: green; -1 (blocked): purple
-
+        # Settings about random dead blocks: 
+        self.disabledBlocks = int(0.1 * (self.m*self.n)) + int(0.3*((self.m*self.n)/10))
+        self.coeff_disabledBlocks = -0.99 # Chance of 2 neighbor blocks
+        self.fade_disabledBlocks = True 
+        self.range_disabledBlocks = 2
+        self.randomEnable = True
 
 class QField():
     """ A field for the Q-Game and all methods needed to play """
 
-    #
-    # Class members
-    #
-
-    #
-    # Class methods
-    #
-
     def __init__(self, settings=Settings):
-        """ Initialzize an empty field. Custom size can be passed as argument
+        """ Initialzize an empty field. Size is based on settings(.m and .n)
         """
         self.settings = settings()
         self.field = [[0 for x in range(self.settings.m)] for y in range(self.settings.n)] 
-        if self.settings.randomEnable is True:
-            self.addRandomBlocks()
+        if self.settings.randomEnable is False:
+            self.firstMove = False
+        else:
+            self.firstMove = True
 
     def addRandomBlocks(self):
-        rndebl(self, self.settings.disabledBlocks, -1, 2)
+        # This function adds random "dead" blocks to prevent some easy tricks,
+        #   thus improving gameplay
+        rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks,
+               self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
 
     def reset(self):
         for row in range(self.settings.n):
             for tile in range(self.settings.m):
                 self.field[row][tile] = 0
         if self.settings.randomEnable is True:
-            self.addRandomBlocks()
+            self.firstMove = True
 
     def move(self, player, x, y):
-        self.field[x][y] = player
+        if self.isFree(x,y):
+            self.field[x][y] = player
+            if self.firstMove:
+                self.addRandomBlocks()
+                self.firstMove = False
+            
+            return True
+        else:
+            return False
 
     def isFree(self, x, y):
         if self.field[x][y] is 0:
@@ -88,16 +91,17 @@ class QField():
         Cross = lambda x, y: [self.field[x+i][y+j]
                               for i, j in zip([0, 0, 0, -1, 1],
                                               [0, 1, -1, 0, 0])]
+
         def free(to_check):
             while to_check:
                 to_check.pop()
         # List to be checked by __checkSequence
-        
-        for i in range(1 ,self.settings.m-1):
+
+        for i in range(1, self.settings.m-1):
             for j in range(1, self.settings.n-1):
                 # i, j is the position of the center of the cross
                 if self.field[i][j] > 0:
-                    cross = Cross(i,j)
+                    cross = Cross(i, j)
                     if self.__checkSequence(cross, 5) is not None:
                         self.field[i][j] = -1
                     free(cross)
@@ -147,11 +151,11 @@ class QField():
             while to_check:
                 to_check.pop()
         fBlock = lambda x, y: [self.field[x+i][y+j]
-                              for i, j in zip([0, 0, 1, 1],
-                                              [0, 1, 0, 1])]
+                               for i, j in zip([0, 0, 1, 1],
+                                               [0, 1, 0, 1])]
         for i in range(self.settings.m-1):
             for j in range(self.settings.n-1):
-                block = fBlock(i,j)
+                block = fBlock(i, j)
                 mayWin = self.__checkSequence(block, 4)
                 free(block)
                 if mayWin is not None:
@@ -169,4 +173,3 @@ class QField():
             if x is not None:
                 return x
         return None
-

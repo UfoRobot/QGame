@@ -1,7 +1,5 @@
 #!/usr/bin/env kivy
 
-from __future__ import print_function
-
 from classes import QField, Settings
 import sys
 from kivy.app import App
@@ -16,6 +14,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.event import EventDispatcher
 
 class MenuPopup(ModalView):
+    
     newGameFunction = ObjectProperty()
     settings = ObjectProperty()
 
@@ -42,11 +41,11 @@ class MenuPopup(ModalView):
         sys.exit()
 
 class EndPopup(ModalView):
+    
     newGameFunction = ObjectProperty()
     winner = NumericProperty()
 
     def newGame(self):
-        print("NEW GAME")
         self.dismiss()
         self.newGameFunction()
 
@@ -64,7 +63,6 @@ class TopBar(BoxLayout):
         """ Overloading init """
 
         super(TopBar, self).__init__(*args, **kwargs)
-        
         self.menuPopup = MenuPopup(settings = self.settings)
         #self.menuPopup.newGameFunction=self.newGameFunction
     
@@ -102,14 +100,12 @@ class GameGrid(GridLayout):
        
     def newGame(self, *args):
         """ Starts a new game """
-
-        print("New game")
         self.field.reset()
         self.updateButtons()
 
 
     def setSettings(self, *args):
-        print("SETTINGS CALLED")
+        pass
 
     def updateButtons(self):
         """ Updates buttons background based on field table """
@@ -126,10 +122,7 @@ class GameGrid(GridLayout):
     def button_pressed(self, button):
         x, y = button.coords
 
-        if self.field.isFree(x, y):
-            self.field.move(self.player, x, y)
-            button.background_color = self.settings.playersColors[self.player]
-
+        if self.field.move(self.player, x, y):
             if self.player == 1:
                 self.player = 2
             else:
@@ -147,17 +140,14 @@ class GameGrid(GridLayout):
             
     def callPopup(self):
         """ Pops out when game ends.
-        Shows result and allows to start a new game or modify settings """
+        Shows result and allows to start a new game"""
 
-        print("Result Popup")   # For debugging
         self.popup = EndPopup(newGameFunction=self.newGame, winner = self.winner)
         self.popup.open()
 
 class MainLayout(BoxLayout):
-
+    
     settings = ObjectProperty(Settings())
-
-
         
 class GridEntry(Button):
     """ A custom button widget """
@@ -165,6 +155,7 @@ class GridEntry(Button):
     coords = ListProperty([0, 0])
 
 class QApp(App):
+    
     def build(self):
         return MainLayout()
 
