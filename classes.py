@@ -144,7 +144,7 @@ class QField():
         return None
 
     def __checkBlocks(self):
-        """ Checks for a winning block (a square with 2-tile side """
+        """ Checks for a winning block (a square with 2-tile side) """
         def free(to_check):
             while to_check:
                 to_check.pop()
