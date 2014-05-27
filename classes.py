@@ -1,4 +1,3 @@
-from __future__ import print_function
 from RandomDeadBlocks import rand_dead_blocks as rndebl
 
 #
@@ -10,14 +9,6 @@ class Settings():
     """ A settings class. It stores number of players and their custom symbols.
         Default is 2 players: X and O """
 
-    #
-    # Class members
-    #
-
-    #
-    # Class methods
-    #
-
     def __init__(self):
         # Game settings 
         self.m = 10 # Lines
@@ -25,9 +16,13 @@ class Settings():
         self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
         self.playersSymbols = {1: "X", 2: "O"}
-        self.playersColors = {1: (1, 0, 0, 1), 2: (0, 0, 1, 1), 0: (1, 1, 1, 1),
-                              -1: (1, 0, 1, 1)}
-        # --> 1: red; 2: green; -1 (blocked): purple
+        self.playersColorName = {1 : 'Red', 2: 'Blue'} # Will (shall) be used in
+                                                       # kv file for proper output
+        self.playersColors = {
+            1: (1, 0, 0, 1), # RGBA: Red
+            2: (0, 0, 1, 1), # RGBA: Blue
+            0: (1, 1, 1, 1), # RGBA: ()
+            -1: (1, 0, 1, 1)}# RGBA: Purple (Dead Block)
         self.playersColorsImg = {
             0: {"normal": "./img/base.png", "down": "./img/base_down.png"},
             1: {"normal": "./img/blue.png", "down": "./img/blue_down.png"},
@@ -44,34 +39,39 @@ class Settings():
 class QField():
     """ A field for the Q-Game and all methods needed to play """
 
-    #
-    # Class members
-    #
-
-    #
-    # Class methods
-    #
-
     def __init__(self, settings=Settings):
-        """ Initialzize an empty field. Custom size can be passed as argument
+        """ Initialzize an empty field. Size is based on settings(.m and .n)
         """
         self.settings = settings()
         self.field = [[0 for x in range(self.settings.m)] for y in range(self.settings.n)] 
-        if self.settings.randomEnable is True:
-            self.addRandomBlocks()
+        if self.settings.randomEnable is False:
+            self.firstMove = False
+        else:
+            self.firstMove = True
 
     def addRandomBlocks(self):
-        rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks, self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
+        # This function adds random "dead" blocks to prevent some easy tricks,
+        #   thus improving gameplay
+        rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks,
+               self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
 
     def reset(self):
         for row in range(self.settings.n):
             for tile in range(self.settings.m):
                 self.field[row][tile] = 0
         if self.settings.randomEnable is True:
-            self.addRandomBlocks()
+            self.firstMove = True
 
     def move(self, player, x, y):
-        self.field[x][y] = player
+        if self.isFree(x,y):
+            self.field[x][y] = player
+            if self.firstMove:
+                self.addRandomBlocks()
+                self.firstMove = False
+            
+            return True
+        else:
+            return False
 
     def isFree(self, x, y):
         if self.field[x][y] is 0:

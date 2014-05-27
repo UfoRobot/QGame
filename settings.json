@@ -1,0 +1,24 @@
+[
+    {
+        "type": "title",
+        "title": "Windows"
+    },
+
+    {
+        "type" : "numeric",
+        "title" : "Rows",
+        "desc" : "Set the number of rows",
+        "section" : "standard",
+        "key" : "n",
+        "10" : "auto"
+    },
+
+    {
+        "type": "bool",
+        "title": "Fullscreen",
+        "desc": "Set the window in windowed or fullscreen",
+        "section": "graphics",
+        "key": "fullscreen",
+        "true": "auto"
+    }
+]
