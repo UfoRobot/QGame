@@ -37,8 +37,8 @@ class AI():
                 else:
                     lista[i][j] = -1
     
-        # Eliminate unusefuls lines.. not if in the middle but only on borders!
-        # Theese don't really seem to be efficient... but
+        # Eliminate useless lines.. not if in the middle but only on borders!
+        # These don't really seem to be efficient... but
         linesToRemove = []
         rowsToRemove = []
         # Top-down
