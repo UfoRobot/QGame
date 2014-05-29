@@ -141,6 +141,12 @@ class GameGrid(GridLayout):
             if self.AI.Move():
                 self.player = 1
                 self.updateButtons()
+        if mayWin is not None:
+            self.winner = mayWin
+            self.callPopup()
+        if self.field.isDraw():
+            self.winner = 0
+            self.callPopup()
                 
             
     def callPopup(self):
