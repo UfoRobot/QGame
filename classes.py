@@ -15,6 +15,7 @@ class Settings():
         self.n = 10 # Columns
         self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
+        self.AIplayer = 2
         self.playersSymbols = {1: "X", 2: "O"}
         self.playersColorName = {1 : 'Red', 2: 'Blue'} # Will (shall) be used in
                                                        # kv file for proper output
