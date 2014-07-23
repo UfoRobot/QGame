@@ -15,6 +15,7 @@ class Settings():
         self.n = 10 # Columns
         self.lineLgt = 5 # Line length (to score)
         self.nPlayers = 2
+        self.AIplayer = 2
         self.playersSymbols = {1: "X", 2: "O"}
         self.playersColorName = {1 : 'Red', 2: 'Blue'} # Will (shall) be used in
                                                        # kv file for proper output
@@ -31,7 +32,7 @@ class Settings():
         }
         # Settings about random dead blocks: 
         self.disabledBlocks = int(0.1 * (self.m*self.n)) + int(0.3*((self.m*self.n)/10))
-        self.coeff_disabledBlocks = -0.99 # Chance of 2 neighbor blocks
+        self.coeff_disabledBlocks = -1 # Chance of 2 neighbor blocks
         self.fade_disabledBlocks = True 
         self.range_disabledBlocks = 2
         self.randomEnable = True
@@ -53,7 +54,7 @@ class QField():
         # This function adds random "dead" blocks to prevent some easy tricks,
         #   thus improving gameplay
         rndebl(self, self.settings.disabledBlocks, self.settings.coeff_disabledBlocks,
-               self.settings.range_disabledBlocks,self.settings.fade_disabledBlocks)
+               self.settings.range_disabledBlocks, self.settings.fade_disabledBlocks)
 
     def reset(self):
         for row in range(self.settings.n):
@@ -87,16 +88,16 @@ class QField():
         return True
 
     def cross_rule(self):
-        """ Apply cross rule: a cross get's muted """
+        """ Apply cross rule: the center of a "cross" (plus-sign shape) is turned
+            into a dead block hence preventing the player to easily win     """
         Cross = lambda x, y: [self.field[x+i][y+j]
                               for i, j in zip([0, 0, 0, -1, 1],
                                               [0, 1, -1, 0, 0])]
-
         def free(to_check):
             while to_check:
                 to_check.pop()
         # List to be checked by __checkSequence
-
+        
         for i in range(1, self.settings.m-1):
             for j in range(1, self.settings.n-1):
                 # i, j is the position of the center of the cross
@@ -107,7 +108,7 @@ class QField():
                     free(cross)
 
     def __checkSequence(self, sequence, lgt=None):
-        """ Given a sequence returns the element that occurs 4 times
+        """ Given a sequence returns the element that occurs 'lgt' times
             in a row. If more the first, if none None """
         if lgt is None:
             lgt = self.settings.lineLgt
@@ -124,7 +125,6 @@ class QField():
         return None
 
     def __checkRows(self):
-        """ Checks for a winner on field's rows """
 
         for row in self.field:
             mayWin = self.__checkSequence(row)
@@ -132,7 +132,6 @@ class QField():
                 return mayWin
 
     def __checkColumns(self):
-        """ You can get that...."""
 
         column = []
         for j in range(self.settings.n):
@@ -146,7 +145,7 @@ class QField():
         return None
 
     def __checkBlocks(self):
-        """ Checks for a winning block """
+        """ Checks for a winning block (a square with 2-tile side) """
         def free(to_check):
             while to_check:
                 to_check.pop()
@@ -171,5 +170,7 @@ class QField():
         blockWinner = self.__checkBlocks()
         for x in (blockWinner, rowWinner, columnWinner):
             if x is not None:
-                return x
+                # Return the winner if it is a player, if it is -1 (dead block),
+                #   return None
+                return x if x is not -1 else None
         return None

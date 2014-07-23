@@ -16,14 +16,14 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
         while True:
             # x = randGen(maxM)
             # y = randGen(maxN)
-            x, y = random.choice(usable_coords) # Sometimes raises IndexError
+            x, y = random.choice(usable_coords)
             if self.field[y][x] == 0 and self.values_per_square[(x, y)] > randGen(100)/100.0:
                 # print("({},{}) {}".format(x+1, y+1, self.values_per_square[(x, y)]))
                 self.field[y][x] = -1
                 usable_coords.remove((x, y))
-                mod_surround(self, usable_coords, y, x, coeff, square_to_modify, Fade)
+                mod_surround(self, y, x, coeff, square_to_modify, Fade, usable_coords)
                 self.values_per_square[(x, y)] = 0
-                break
+                return
             if i == maxIteration:
                 print "Exception raised; last x, y = {}\n".format((x, y))
                 raise Exception
@@ -38,10 +38,7 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
                 else:
                     self.values_per_square[(x, y)] += value_to_set
                     if self.values_per_square[(x, y)] <= 0:
-                        try:
-                            Usable_coords.remove((x, y))
-                        except ValueError:
-                            pass
+                        Usable_coords.remove((x, y))
 
     def mod_surround(self, Usable_coords, X, Y, coeff, square_to_modify, fade):
         for x in range(square_to_modify+1, 1, -1):
@@ -82,4 +79,3 @@ def rand_dead_blocks(self, num_dead_blocks=1, coeff_surround=-0.2, square_to_mod
     #         i+=1
     # for el in self.field:
     #     print(el)
-

@@ -12,6 +12,7 @@ from kivy.uix.modalview import ModalView
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.event import EventDispatcher
+from ia import AI
 
 class MenuPopup(ModalView):
     
@@ -67,12 +68,9 @@ class TopBar(BoxLayout):
         #self.menuPopup.newGameFunction=self.newGameFunction
     
     def startMenu(self):
+        #self.newGameFunction() # enable for easy testing of newly generated games (disable following lines:)
         self.menuPopup.newGameFunction = self.newGameFunction
         self.menuPopup.open()
-
-        
-
-
 
 class GameGrid(GridLayout):
     """ The main grid, where everything takes place... """
@@ -87,7 +85,9 @@ class GameGrid(GridLayout):
         """ Init initializing gaming grid """
         self.field = QField()
         self.settings = Settings()
-        self.player = 1                                                        # Starting player
+        self.player = 1
+        self.AI = AI(self)
+        # Starting player
         self.cols = self.settings.n
         for row in range(self.settings.m):
             for column in range(self.settings.n):
@@ -137,6 +137,17 @@ class GameGrid(GridLayout):
         if self.field.isDraw():
             self.winner = 0
             self.callPopup()
+        if self.player is self.settings.AIplayer:
+            if self.AI.Move():
+                self.player = 1
+                self.updateButtons()
+        if mayWin is not None:
+            self.winner = mayWin
+            self.callPopup()
+        if self.field.isDraw():
+            self.winner = 0
+            self.callPopup()
+                
             
     def callPopup(self):
         """ Pops out when game ends.
