@@ -86,27 +86,85 @@ class AI():
             for j in range(n)[::-1]:
                 if j in rowsToRemove:
                     del lista[i][j]
-        
-            
-    
-    
-        return lista
-    
-    
-    
     def printList(lista):
         for i in range(len(lista)):
             print lista[i]
         print '-------'
+
+    def findPatterns(field, m, n):
+        """
+            Counts patterns in field.
+            Patterns are badly hardoced...
+
+            PATTERN 1:
+                
+                X X
+                X
+            
+            PATTERN 2:
+
+                X 
+                X X
+            
+            PATTERN 3:
+
+                X
+                X X
+
+            PATTERN 4:
+
+                X X
+                  X
+
+            More to come... 
+
+        """
+        # Patterns
+        pattern1 = 0
+        pattern2 = 0
+        # Looping for 2x2 patterns
+        for i in range(m-1):
+            for j in range(n-1):
+               # print str(field[i][j]) + " " +str( field[i][j+1])
+               # print str(field[i+1][j]) + " " + str(field[i+1][j+1])
+               # print " "
+                # PATTERN 1
+                if field[i][j] == 1 and field[i][j+1] == 1 and field[i+1][j] == 1 and field[i+1][j+1] == 0:
+                    pattern1 += 1
+                # PATTERN 2
+                if field[i][j] == 1 and field[i][j+1] == 0 and field[i+1][j] == 1 and field[i+1][j+1] == 1:
+                    pattern2 += 1
+
+        # Don't forget the bottom right corner!
+        # PATTERN 1
+        if field[m-2][n-2] == 1 and field[m-2][n-1] == 1 and field[m-1][n-2] == 1 and field[m-1][n-1] == 0:
+            pattern1 += 1
+        # PATTERN 1
+        if field[m-2][n-2] == 1 and field[m-2][n-1] == 0 and field[m-1][n-2] == 1 and field[m-1][n-1] == 1:
+            pattern2 += 1
+ 
+
+        return pattern2
+
+
+
+
+    
+
+
+
+    def staticEvaluation(field):
+        pass
     
     
     if __name__ == '__main__':
-        lista = [[0,0,0,0,0,0,0,0,0,0],
-                 [0,0,0,0,0,0,0,0,1,0],
-                 [0,0,0,0,0,0,0,1,1,0],
-                 [0,0,0,0,0,0,0,0,0,0]]
+        lista = [[1,1,0,0,0,0,0,0,1,0],
+                 [1,0,0,0,0,0,0,0,1,1],
+                 [0,0,1,1,0,0,0,1,1,1],
+                 [0,0,1,0,0,0,0,0,1,0]]
     
         printList(lista)
-        result = defineBorders(lista, 2, 4, 10)
-        printList(result)
+        n = findPatterns(lista, 4, 10)
+        print n
+
 
