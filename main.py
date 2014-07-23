@@ -128,7 +128,6 @@ class GameGrid(GridLayout):
             else:
                 self.player = 1
 
-        self.field.cross_rule()
         self.updateButtons()
         mayWin = self.field.checkWin()
         if mayWin is not None:
@@ -137,16 +136,17 @@ class GameGrid(GridLayout):
         if self.field.isDraw():
             self.winner = 0
             self.callPopup()
-        if self.player is self.settings.AIplayer:
-            if self.AI.Move():
-                self.player = 1
-                self.updateButtons()
+   #     if self.player is self.settings.AIplayer:
+    #        if self.AI.Move():
+     #           self.player = 1
+      #          self.updateButtons()
         if mayWin is not None:
             self.winner = mayWin
             self.callPopup()
         if self.field.isDraw():
             self.winner = 0
             self.callPopup()
+        self.field.cross_rule()
                 
             
     def callPopup(self):
