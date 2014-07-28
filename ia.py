@@ -91,9 +91,9 @@ class AI():
             print lista[i]
         print '-------'
 
-    def findPatterns(field, m, n):
+    def staticEval(field, m, n, p):
         """
-            Counts patterns in field.
+            Counts patterns in field for a given player (p).
             Patterns are badly hardoced...
 
             PATTERN 1:
@@ -108,7 +108,7 @@ class AI():
             
             PATTERN 3:
 
-                X
+                  X 
                 X X
 
             PATTERN 4:
@@ -120,32 +120,44 @@ class AI():
 
         """
         # Patterns
-        pattern1 = 0
-        pattern2 = 0
+        winPattern = 0
+
         # Looping for 2x2 patterns
         for i in range(m-1):
             for j in range(n-1):
-               # print str(field[i][j]) + " " +str( field[i][j+1])
-               # print str(field[i+1][j]) + " " + str(field[i+1][j+1])
-               # print " "
                 # PATTERN 1
-                if field[i][j] == 1 and field[i][j+1] == 1 and field[i+1][j] == 1 and field[i+1][j+1] == 0:
-                    pattern1 += 1
+                if field[i][j] == p and field[i][j+1] == p and field[i+1][j] == p and field[i+1][j+1] == 0:
+                    winPattern += 1
                 # PATTERN 2
-                if field[i][j] == 1 and field[i][j+1] == 0 and field[i+1][j] == 1 and field[i+1][j+1] == 1:
-                    pattern2 += 1
+                if field[i][j] == p and field[i][j+1] == 0 and field[i+1][j] == p and field[i+1][j+1] == p:
+                    winPattern += 1
+                # PATTERN 3
+                if field[i][j] == 0 and field[i][j+1] == p and field[i+1][j] == p and field[i+1][j+1] == p:
+                    winPattern += 1
+                # PATTERN 4
+                if field[i][j] == p and field[i][j+1] == p and field[i+1][j] == 0 and field[i+1][j+1] == p:
+                    winPattern += 1
 
         # Don't forget the bottom right corner!
         # PATTERN 1
-        if field[m-2][n-2] == 1 and field[m-2][n-1] == 1 and field[m-1][n-2] == 1 and field[m-1][n-1] == 0:
-            pattern1 += 1
-        # PATTERN 1
-        if field[m-2][n-2] == 1 and field[m-2][n-1] == 0 and field[m-1][n-2] == 1 and field[m-1][n-1] == 1:
-            pattern2 += 1
+        if field[m-2][n-2] == p and field[m-2][n-1] == p and field[m-1][n-2] == p and field[m-1][n-1] == 0:
+            winPattern += 1
+        # PATTERN 2
+        if field[m-2][n-2] == p and field[m-2][n-1] == 0 and field[m-1][n-2] == p and field[m-1][n-1] == p:
+            winPattern += 1
+        # PATTERN 3
+        if field[m-2][n-2] == 0 and field[m-2][n-1] == p and field[m-1][n-2] == p and field[m-1][n-1] == p:
+            winPattern += 1
+        # PATTERN 4
+        if field[m-2][n-2] == p and field[m-2][n-1] == p and field[m-1][n-2] == 0 and field[m-1][n-1] == p:
+            winPattern += 1
  
-
-        return pattern2
-
+        print winPattern
+        if winPattern > 1:
+            return 100000
+        else:
+            return 10
+    
 
 
 
@@ -153,18 +165,16 @@ class AI():
 
 
 
-    def staticEvaluation(field):
-        pass
     
     
     if __name__ == '__main__':
-        lista = [[1,1,0,0,0,0,0,0,1,0],
-                 [1,0,0,0,0,0,0,0,1,1],
+        lista = [[1,1,0,0,2,0,0,0,1,0],
+                 [1,0,0,0,2,2,0,0,1,1],
                  [0,0,1,1,0,0,0,1,1,1],
                  [0,0,1,0,0,0,0,0,1,0]]
     
         printList(lista)
-        n = findPatterns(lista, 4, 10)
+        n = staticEval(lista, 4, 10, 2)
         print n
 
 
